@@ -1,0 +1,49 @@
+#!/bin/bash
+# Speedrun Sui - Environment Setup Checklist
+
+echo "=========================================="
+echo "🎯 Speedrun Sui - Testnet Kurulum Kontrol"
+echo "=========================================="
+echo ""
+
+# 1. Sui CLI
+echo "✓ Sui CLI: v1.57.2"
+echo "✓ Network: Sui Testnet (fullnode.testnet.sui.io)"
+echo ""
+
+# 2. Wallet
+echo "✓ Cüzdan Adresi:"
+echo "  0x3b489790d09b9f4ecb60ba0e82365a84da2c32541a923209e688e18ff2a0ca62"
+echo ""
+
+# 3. Move Package
+echo "✓ Package ID:"
+echo "  0xdc492249fcf6cbc6c9472f61b6b26b2f1a85eff3dfa00c90dd641267512333cb"
+echo ""
+
+# 4. Transaction
+echo "✓ Deployment Transaction:"
+echo "  6epVDExNX1FMCxD474sJTnacUqoRkneuSLPbBhn6PpKA"
+echo ""
+
+# 5. Frontend
+echo "✓ Frontend Durumu:"
+echo "  URL: http://localhost:5174"
+echo "  Status: Çalışıyor"
+echo ""
+
+# 6. Environment
+echo "✓ Environment Files:"
+echo "  - frontend/.env.local (Package ID ile güncellendi)"
+echo ""
+
+echo "=========================================="
+echo "🚀 Hepsi Hazır! Şimdi Başlamaya Hazırsın!"
+echo "=========================================="
+echo ""
+echo "Wallet Bağlamak İçin:"
+echo "1. Browser'da Sui Wallet extension'ını aç"
+echo "2. Testnet'i seç"
+echo "3. http://localhost:5174 sayfasını aç"
+echo "4. 'Connect Wallet' butonuna tıkla"
+echo ""

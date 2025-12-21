@@ -7,8 +7,11 @@ import {
 import { Transaction } from '@mysten/sui/transactions';
 import { useState, useEffect } from 'react';
 import React from 'react';
+import { VscHome, VscArchive, VscAccount, VscSettingsGear } from 'react-icons/vsc';
 import ProjectTabs from './ProjectTabs';
 import LightRays from './LightRays';
+import Particles from './Particles';
+import Dock from './Dock';
 import './SpeedrunDashboard.css';
 
 // Move module's package ID - Will be written here after deployment
@@ -174,8 +177,88 @@ function SpeedrunDashboard() {
     setTransactionDigest('');
   };
 
+  const dockItems = [
+    { icon: <VscHome size={18} />, label: 'Home', onClick: () => alert('Home!') },
+    { icon: <VscArchive size={18} />, label: 'Archive', onClick: () => alert('Archive!') },
+    { icon: <VscAccount size={18} />, label: 'Profile', onClick: () => alert('Profile!') },
+    { icon: <VscSettingsGear size={18} />, label: 'Settings', onClick: () => alert('Settings!') },
+  ];
+
   return (
     <div className="dashboard-container">
+      {/* Top Banner */}
+      <div className="top-banner">
+        <div className="banner-content">
+          {/* Sui Logo */}
+          <div className="banner-logo">
+            <div className="sui-logo-container">
+              <div className="sui-logo-glow"></div>
+              <div className="sui-logo-wrapper">
+                <img 
+                  src="https://cryptologos.cc/logos/sui-sui-logo.png"
+                  alt="Sui Logo"
+                  className="sui-logo"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (target.src.includes('cryptologos')) {
+                      target.src = 'https://s2.coinmarketcap.com/static/img/coins/200x200/20947.png';
+                    } else if (target.src.includes('coinmarketcap')) {
+                      target.src = 'https://avatars.githubusercontent.com/u/102524681?s=400';
+                    } else {
+                      target.src = '/sui-logo.svg';
+                    }
+                  }}
+                />
+              </div>
+              <div className="sui-logo-ring"></div>
+            </div>
+          </div>
+
+          <div className="banner-text">
+            <h1 className="banner-title">Speedrun Sui</h1>
+          </div>
+
+          {/* Dock Navigation */}
+          <div className="banner-dock">
+            <Dock 
+              items={dockItems}
+              panelHeight={50}
+              baseItemSize={40}
+              magnification={55}
+            />
+          </div>
+
+          {/* Connect/Disconnect Button */}
+          <div className="banner-actions">
+            {!currentAccount ? (
+              <ConnectButton className="banner-connect-btn" />
+            ) : (
+              <button 
+                className="banner-disconnect-btn"
+                onClick={handleDisconnect}
+                title="Click to disconnect"
+              >
+                {currentAccount.address.substring(0, 6)}...{currentAccount.address.substring(currentAccount.address.length - 4)}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <Particles
+        particleCount={150}
+        particleSpread={12}
+        speed={0.05}
+        particleColors={['#00bfff', '#1e90ff', '#00d4ff', '#4da6ff']}
+        moveParticlesOnHover={false}
+        alphaParticles={true}
+        particleBaseSize={80}
+        sizeRandomness={0.6}
+        cameraDistance={25}
+        disableRotation={false}
+        className="dashboard-particles"
+      />
+      
       <LightRays
         raysOrigin="top-center"
         raysColor="#00ffff"
@@ -188,13 +271,6 @@ function SpeedrunDashboard() {
         distortion={0.05}
         className="dashboard-background-rays"
       />
-      
-      {/* Connect Wallet Button - Top Right */}
-      {!isAuthenticated && !currentAccount && (
-        <div className="top-right-connect">
-          <ConnectButton className="connect-wallet-btn" />
-        </div>
-      )}
       
       <div className="dashboard-content">
         <div 
@@ -220,37 +296,6 @@ function SpeedrunDashboard() {
               }
             </p>
           </div>
-
-          {/* Hero Avatar - Only show if not authenticated and no wallet */}
-          {!isAuthenticated && !currentAccount && (
-            <div className="hero-avatar-section">
-              <div className="sui-logo-container">
-                <div className="sui-logo-glow"></div>
-                <div className="sui-logo-wrapper">
-                  <img 
-                    src="https://cryptologos.cc/logos/sui-sui-logo.png"
-                    alt="Sui Logo"
-                    className="sui-logo"
-                    onError={(e) => {
-                      // Fallback chain
-                      const target = e.target as HTMLImageElement;
-                      if (target.src.includes('cryptologos')) {
-                        target.src = 'https://s2.coinmarketcap.com/static/img/coins/200x200/20947.png';
-                      } else if (target.src.includes('coinmarketcap')) {
-                        target.src = 'https://avatars.githubusercontent.com/u/102524681?s=400';
-                      } else {
-                        target.src = '/sui-logo.svg';
-                      }
-                    }}
-                  />
-                </div>
-                <div className="sui-logo-ring"></div>
-              </div>
-              <div className="hero-info">
-                <div className="hero-handle">@speedrun_sui</div>
-              </div>
-            </div>
-          )}
 
           {/* Connect Button - MOVED TO TOP RIGHT */}
           

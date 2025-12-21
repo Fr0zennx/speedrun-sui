@@ -1,43 +1,55 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="suiBlue" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%" style="stop-color:#6FB6FF;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#4FA8E8;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3B8FD6;stop-opacity:1" />
+    <!-- Su damlası gradient -->
+    <linearGradient id="waterDropGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5AB8FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1" />
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
+    
+    <!-- Dış daire gradient -->
+    <radialGradient id="circleGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#4FA8FF;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:0.1" />
+    </radialGradient>
+    
+    <!-- Glow filter -->
+    <filter id="dropGlow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
       <feMerge>
-        <feMergeNode in="blur"/>
+        <feMergeNode in="coloredBlur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
   </defs>
   
-  <!-- Sui Water Drop Shape -->
-  <path d="M100 30 
-           C115 30, 128 38, 138 52 
-           C148 66, 155 85, 155 105 
-           C155 135, 130 160, 100 170 
-           C70 160, 45 135, 45 105 
-           C45 85, 52 66, 62 52 
-           C72 38, 85 30, 100 30 Z" 
-        fill="url(#suiBlue)" 
-        filter="url(#glow)"/>
+  <!-- Dış çember arka planı -->
+  <circle cx="100" cy="100" r="98" fill="url(#circleGradient)" stroke="#4FA8FF" stroke-width="1.5" opacity="0.5"/>
   
-  <!-- Inner Wave -->
-  <path d="M100 70 
-           C115 70, 125 85, 125 100
-           Q125 115, 118 125
-           Q112 135, 100 142
-           Q88 135, 82 125
-           Q75 115, 75 100
-           C75 85, 85 70, 100 70 Z
-           M100 85
-           Q95 90, 95 100
-           Q95 108, 100 120
-           Q105 108, 105 100
-           Q105 90, 100 85 Z" 
-        fill="rgba(13, 20, 25, 0.7)"/>
+  <!-- Dış çember hatası -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#4FA8FF" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Su damlası şekli -->
+  <path d="M100 45 
+           C85 65, 75 80, 75 95 
+           C75 120, 85 135, 100 145 
+           C115 135, 125 120, 125 95 
+           C125 80, 115 65, 100 45 Z" 
+        fill="url(#waterDropGradient)" 
+        filter="url(#dropGlow)"
+        opacity="0.95"/>
+  
+  <!-- Su damlası iç hatası (highlight) -->
+  <path d="M100 50 
+           C87 68, 80 82, 80 95 
+           C80 118, 88 130, 100 140 
+           C112 130, 120 118, 120 95 
+           C120 82, 113 68, 100 50 Z" 
+        fill="none" 
+        stroke="#8FC9FF" 
+        stroke-width="1.2" 
+        opacity="0.5"/>
+  
+  <!-- Top highlight -->
+  <ellipse cx="95" cy="55" rx="4" ry="6" fill="#FFFFFF" opacity="0.4" filter="url(#dropGlow)"/>
 </svg>
 
