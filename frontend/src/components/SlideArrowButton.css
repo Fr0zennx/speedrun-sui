@@ -1,0 +1,63 @@
+.slide-arrow-button {
+  position: relative;
+  border-radius: 9999px;
+  border: 1px solid rgba(77, 208, 225, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.slide-arrow-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 188, 212, 0.4);
+  border-color: rgba(77, 208, 225, 0.4);
+}
+
+.slide-arrow-button__bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  height: 100%;
+  width: 2.75rem;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 9999px;
+  transition: all 0.2s ease-in-out;
+}
+
+.slide-arrow-button:hover .slide-arrow-button__bg {
+  width: 100%;
+}
+
+.slide-arrow-button__icon {
+  margin-right: 0.75rem;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-arrow-button__text {
+  position: relative;
+  left: 1rem;
+  z-index: 10;
+  white-space: nowrap;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-weight: 600;
+  color: #4dd0e1;
+  transition: all 0.2s ease-in-out;
+  text-shadow: 0 0 10px rgba(77, 208, 225, 0.3);
+}
+
+.slide-arrow-button:hover .slide-arrow-button__text {
+  left: -0.75rem;
+  color: white;
+}

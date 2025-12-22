@@ -12,6 +12,11 @@ import ProjectTabs from './ProjectTabs';
 import LightRays from './LightRays';
 import Particles from './Particles';
 import Dock from './Dock';
+import GlassIcons from './GlassIcons';
+import Profile from './Profile';
+import Magnet from './Magnet';
+import SlideArrowButton from './SlideArrowButton';
+import GettingStarted from './GettingStarted';
 import './SpeedrunDashboard.css';
 
 // Move module's package ID - Will be written here after deployment
@@ -27,6 +32,8 @@ function SpeedrunDashboard() {
   const [transactionStatus, setTransactionStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [transactionDigest, setTransactionDigest] = useState<string>('');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+  const [showGettingStarted, setShowGettingStarted] = useState<boolean>(false);
   const wrapRef = React.useRef<HTMLDivElement>(null);
 
   // Holographic tilt effect
@@ -184,62 +191,78 @@ function SpeedrunDashboard() {
     { icon: <VscSettingsGear size={18} />, label: 'Settings', onClick: () => alert('Settings!') },
   ];
 
+  const glassIconItems = [
+    { 
+      icon: <VscAccount size={20} />, 
+      color: 'blue', 
+      label: 'Profile', 
+      onClick: () => setShowProfile(true)
+    },
+    { 
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>, 
+      color: 'red', 
+      label: 'Disconnect', 
+      onClick: handleDisconnect
+    },
+  ];
+
   return (
-    <div className="dashboard-container">
+    <>
+      {/* Getting Started Page - Full screen tab-like view */}
+      {showGettingStarted ? (
+        <GettingStarted onClose={() => setShowGettingStarted(false)} />
+      ) : /* Profile Page - Full screen tab-like view */
+      showProfile && currentAccount ? (
+        <Profile onClose={() => setShowProfile(false)} />
+      ) : (
+        <div className="dashboard-container">
+      {/* Sui Logo - Outside Banner */}
+      <div className="floating-logo">
+        <div className="sui-logo-container">
+          <div className="sui-logo-glow"></div>
+          <div className="sui-logo-wrapper">
+            <img 
+              src="https://cryptologos.cc/logos/sui-sui-logo.png"
+              alt="Sui Logo"
+              className="sui-logo"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (target.src.includes('cryptologos')) {
+                  target.src = 'https://s2.coinmarketcap.com/static/img/coins/200x200/20947.png';
+                } else if (target.src.includes('coinmarketcap')) {
+                  target.src = 'https://avatars.githubusercontent.com/u/102524681?s=400';
+                } else {
+                  target.src = '/sui-logo.svg';
+                }
+              }}
+            />
+          </div>
+          <div className="sui-logo-ring"></div>
+        </div>
+      </div>
+
       {/* Top Banner */}
       <div className="top-banner">
         <div className="banner-content">
-          {/* Sui Logo */}
-          <div className="banner-logo">
-            <div className="sui-logo-container">
-              <div className="sui-logo-glow"></div>
-              <div className="sui-logo-wrapper">
-                <img 
-                  src="https://cryptologos.cc/logos/sui-sui-logo.png"
-                  alt="Sui Logo"
-                  className="sui-logo"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (target.src.includes('cryptologos')) {
-                      target.src = 'https://s2.coinmarketcap.com/static/img/coins/200x200/20947.png';
-                    } else if (target.src.includes('coinmarketcap')) {
-                      target.src = 'https://avatars.githubusercontent.com/u/102524681?s=400';
-                    } else {
-                      target.src = '/sui-logo.svg';
-                    }
-                  }}
-                />
-              </div>
-              <div className="sui-logo-ring"></div>
-            </div>
-          </div>
-
-          <div className="banner-text">
-            <h1 className="banner-title">Speedrun Sui</h1>
-          </div>
-
-          {/* Dock Navigation */}
-          <div className="banner-dock">
-            <Dock 
-              items={dockItems}
-              panelHeight={50}
-              baseItemSize={40}
-              magnification={55}
-            />
-          </div>
-
-          {/* Connect/Disconnect Button */}
+          {/* Connect/Glass Icons */}
           <div className="banner-actions">
             {!currentAccount ? (
               <ConnectButton className="banner-connect-btn" />
             ) : (
-              <button 
-                className="banner-disconnect-btn"
-                onClick={handleDisconnect}
-                title="Click to disconnect"
-              >
-                {currentAccount.address.substring(0, 6)}...{currentAccount.address.substring(currentAccount.address.length - 4)}
-              </button>
+              <div className="banner-wallet-section">
+                <GlassIcons items={glassIconItems} className="banner-glass-icons" />
+                <Magnet padding={30} disabled={false} magnetStrength={5}>
+                  <div className="wallet-address-badge">
+                    <span className="wallet-address-text">
+                      {currentAccount.address.substring(0, 6)}...{currentAccount.address.substring(currentAccount.address.length - 4)}
+                    </span>
+                  </div>
+                </Magnet>
+              </div>
             )}
           </div>
         </div>
@@ -273,6 +296,29 @@ function SpeedrunDashboard() {
       />
       
       <div className="dashboard-content">
+        {/* Main Title with Water Theme - Only show when not authenticated */}
+        {!isAuthenticated && (
+          <div className="water-title-container">
+            <h1 className="water-title">
+              <span className="water-text">Speedrun</span>
+              <span className="water-text">Sui</span>
+            </h1>
+            <div className="water-wave"></div>
+            <div className="water-droplets">
+              <div className="droplet"></div>
+              <div className="droplet"></div>
+              <div className="droplet"></div>
+            </div>
+            <div className="get-started-button">
+              <SlideArrowButton 
+                text="Get Started" 
+                primaryColor="#00bcd4"
+                onClick={() => setShowGettingStarted(true)}
+              />
+            </div>
+          </div>
+        )}
+
         <div 
           className={`dashboard-card ${isAuthenticated ? 'expanded' : ''} ${!isAuthenticated && !currentAccount ? 'holographic-card' : ''}`}
           ref={!isAuthenticated && !currentAccount ? wrapRef : null}
@@ -288,7 +334,7 @@ function SpeedrunDashboard() {
 
           {/* Header - Always visible */}
           <div className="dashboard-header">
-            <h1>Speedrun Sui</h1>
+            <h1>{isAuthenticated ? 'Speedrun Sui' : 'Welcome to Sui'}</h1>
             <p className="subtitle">
               {isAuthenticated 
                 ? 'Master Sui by completing each project challenge' 
@@ -420,7 +466,9 @@ function SpeedrunDashboard() {
           )}
         </div>
       </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 
