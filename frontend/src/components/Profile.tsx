@@ -1,6 +1,8 @@
 import { useCurrentAccount } from '@mysten/dapp-kit';
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import StarBorder from './StarBorder';
+import LessonView from './LessonView';
 import './Profile.css';
 
 interface ProfileProps {
@@ -10,6 +12,7 @@ interface ProfileProps {
 function Profile({ onClose }: ProfileProps) {
   const currentAccount = useCurrentAccount();
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [showLesson, setShowLesson] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const orderRef = useRef<number[]>([0, 1, 2, 3, 4, 5, 6, 7]);
@@ -236,14 +239,14 @@ function Profile({ onClose }: ProfileProps) {
 
   const cards = [
     {
-      icon: '🌐',
-      label: 'Network',
-      value: 'Sui Testnet',
+      icon: '',
+      label: 'Hello Move',
+      value: '',
       desc: 'Currently connected to Sui\'s testing environment',
-      number: '1'
+      number: '0'
     },
     {
-      icon: '✓',
+      icon: '',
       label: 'Status',
       value: 'Active',
       desc: 'Your wallet connection is live and secure',
@@ -251,42 +254,42 @@ function Profile({ onClose }: ProfileProps) {
       number: '2'
     },
     {
-      icon: '💼',
+      icon: '',
       label: 'Wallet Type',
       value: 'Sui Wallet',
       desc: 'Official Sui browser extension wallet',
       number: '3'
     },
     {
-      icon: '💰',
+      icon: '',
       label: 'Balance',
       value: '-- SUI',
       desc: 'Total balance in your wallet',
       number: '4'
     },
     {
-      icon: '📊',
+      icon: '',
       label: 'Transactions',
       value: '0',
       desc: 'Number of transactions performed',
       number: '5'
     },
     {
-      icon: '🎨',
+      icon: '',
       label: 'NFTs Owned',
       value: '0',
       desc: 'Digital collectibles in your wallet',
       number: '6'
     },
     {
-      icon: '📅',
+      icon: '',
       label: 'Connected Since',
       value: new Date().toLocaleDateString(),
       desc: 'Your wallet connection start date',
       number: '7'
     },
     {
-      icon: '⚡',
+      icon: '',
       label: 'Last Activity',
       value: 'Just now',
       desc: 'Most recent wallet interaction',
@@ -329,17 +332,24 @@ function Profile({ onClose }: ProfileProps) {
           <h2>Profile</h2>
           <div className="profile-scroll-wrapper" ref={scrollContainerRef} onScroll={handleScroll}>
             <div className="profile-cards-wrapper">
-              {/* Left side - Card Descriptions */}
-              <div className="card-descriptions">
-                {cards.map((card, index) => (
-                  <div 
-                    key={index} 
-                    className={`card-description-item ${index === activeCardIndex ? 'active' : ''}`}
-                  >
-                    <h3>{card.label}</h3>
-                    <p>{card.desc}</p>
-                  </div>
-                ))}
+              {/* Center Start Button */}
+              <div className="profile-center-button">
+                <StarBorder
+                  key={activeCardIndex}
+                  as="button"
+                  className="profile-start-button"
+                  color="cyan"
+                  speed="5s"
+                  onClick={() => {
+                    if (activeCardIndex === 0) {
+                      setShowLesson(true);
+                    } else {
+                      console.log(`Started ${cards[activeCardIndex].label}`);
+                    }
+                  }}
+                >
+                  Start
+                </StarBorder>
               </div>
 
               {/* Right side - Manual Card Stack */}
@@ -360,7 +370,6 @@ function Profile({ onClose }: ProfileProps) {
                         <span className={card.isStatus ? 'status-active' : ''}>{card.value}</span>
                       </div>
                     </div>
-                    <p className="card-description">{card.desc}</p>
                   </div>
                 ))}
               </div>
@@ -370,6 +379,9 @@ function Profile({ onClose }: ProfileProps) {
           </div>
         </div>
       </div>
+
+      {/* Lesson View */}
+      {showLesson && <LessonView onClose={() => setShowLesson(false)} />}
     </div>
   );
 }

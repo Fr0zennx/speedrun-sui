@@ -205,21 +205,12 @@
 }
 
 .profile-scroll-wrapper::-webkit-scrollbar {
-  width: 6px;
+  display: none;
 }
 
-.profile-scroll-wrapper::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-}
-
-.profile-scroll-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(30, 144, 255, 0.5);
-  border-radius: 10px;
-}
-
-.profile-scroll-wrapper::-webkit-scrollbar-thumb:hover {
-  background: rgba(30, 144, 255, 0.8);
+.profile-scroll-wrapper {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .profile-cards-wrapper {
@@ -322,6 +313,54 @@
   font-size: 1rem;
   line-height: 1.6;
   margin: 0;
+}
+
+.profile-center-button {
+  position: absolute;
+  left: 35%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  animation: fadeInButton 0.5s ease;
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.profile-start-button {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.profile-start-button .inner-content {
+  padding: 14px 40px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  border-radius: 16px;
+  color: #00ffff;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.profile-start-button:hover .inner-content {
+  background: rgba(0, 30, 30, 0.95);
+  border-color: rgba(0, 255, 255, 0.7);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+.profile-start-button .border-gradient-bottom,
+.profile-start-button .border-gradient-top {
+  background: linear-gradient(90deg, #00ffff, #00ccff, #0099ff) !important;
 }
 
 /* Remove old card styles - they're now in CardSwap.css */
