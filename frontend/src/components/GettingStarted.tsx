@@ -4,9 +4,10 @@ import './GettingStarted.css';
 
 interface GettingStartedProps {
   onClose: () => void;
+  onStartSuiGarage?: () => void;
 }
 
-function GettingStarted({ onClose }: GettingStartedProps) {
+function GettingStarted({ onClose, onStartSuiGarage }: GettingStartedProps) {
   const menuItems = [
     {
       image: '',
@@ -85,7 +86,7 @@ function GettingStarted({ onClose }: GettingStartedProps) {
 
         {/* Infinite Menu */}
         <div className="getting-started-content">
-          <InfiniteMenu items={menuItems} scale={1.0} />
+          <InfiniteMenu items={menuItems} scale={1.0} onStart={onStartSuiGarage} />
         </div>
       </div>
     </div>

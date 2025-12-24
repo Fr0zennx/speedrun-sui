@@ -17,6 +17,7 @@ import Profile from './Profile';
 import Magnet from './Magnet';
 import SlideArrowButton from './SlideArrowButton';
 import GettingStarted from './GettingStarted';
+import LessonView from './LessonView';
 import './SpeedrunDashboard.css';
 
 // Move module's package ID - Will be written here after deployment
@@ -34,6 +35,7 @@ function SpeedrunDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [showGettingStarted, setShowGettingStarted] = useState<boolean>(false);
+  const [showLesson, setShowLesson] = useState<boolean>(false);
   const wrapRef = React.useRef<HTMLDivElement>(null);
 
   // Holographic tilt effect
@@ -214,7 +216,16 @@ function SpeedrunDashboard() {
     <>
       {/* Getting Started Page - Full screen tab-like view */}
       {showGettingStarted ? (
-        <GettingStarted onClose={() => setShowGettingStarted(false)} />
+        <GettingStarted 
+          onClose={() => setShowGettingStarted(false)} 
+          onStartSuiGarage={() => {
+            setShowGettingStarted(false);
+            setShowLesson(true);
+          }}
+        />
+      ) : /* Lesson View - Full screen tab-like view */
+      showLesson ? (
+        <LessonView onClose={() => setShowLesson(false)} />
       ) : /* Profile Page - Full screen tab-like view */
       showProfile && currentAccount ? (
         <Profile onClose={() => setShowProfile(false)} />

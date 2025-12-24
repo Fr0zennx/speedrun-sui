@@ -863,11 +863,13 @@ class InfiniteGridMenu {
 interface InfiniteMenuProps {
   items: MenuItem[];
   scale?: number;
+  onStart?: () => void;
 }
 
-export default function InfiniteMenu({ items = [], scale = 1.0 }: InfiniteMenuProps) {
+export default function InfiniteMenu({ items = [], scale = 1.0, onStart }: InfiniteMenuProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
 
   useEffect(() => {
@@ -877,6 +879,7 @@ export default function InfiniteMenu({ items = [], scale = 1.0 }: InfiniteMenuPr
     const handleActiveItem = (index: number) => {
       const itemIndex = index % items.length;
       setActiveItem(items[itemIndex]);
+      setActiveIndex(itemIndex);
     };
 
     if (canvas && items.length > 0) {
@@ -913,6 +916,15 @@ export default function InfiniteMenu({ items = [], scale = 1.0 }: InfiniteMenuPr
           <h2 className={`infinite-menu-title ${isMoving ? 'inactive' : 'active'}`}>
             {activeItem.title}
           </h2>
+
+          {activeIndex === 0 && (
+            <button 
+              className={`infinite-menu-start-btn ${isMoving ? 'inactive' : 'active'}`}
+              onClick={onStart}
+            >
+              START
+            </button>
+          )}
 
           <p className={`infinite-menu-description ${isMoving ? 'inactive' : 'active'}`}>
             {activeItem.description}

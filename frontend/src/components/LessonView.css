@@ -654,3 +654,91 @@
     opacity: 1;
   }
 }
+.skill-card {
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.skill-card h4 {
+  color: #00ffff;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.skill-card p {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+
+.lesson-footer {
+  height: 80px;
+  background: #1a2332;
+  border-top: 2px solid rgba(0, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  gap: 1rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.check-answer-btn {
+  padding: 1rem 3rem;
+  background: #00ffff;
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.check-answer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+}
+
+.check-answer-btn:disabled {
+  background: #333;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.footer-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.footer-nav-btn:hover {
+  border-color: #00ffff;
+  color: #00ffff;
+}
+
+.footer-nav-btn.prev {
+  left: 2rem;
+}
+
+.footer-nav-btn.next {
+  right: 2rem;
+}
+
