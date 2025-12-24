@@ -9,6 +9,7 @@ export interface ChromaGridItem {
   icon?: string;
   description?: string;
   color?: string;
+  buttonLabel?: string;
   onClick?: () => void;
 }
 
@@ -34,7 +35,6 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
   ease = 'power3.out'
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
-  const fadeRef = useRef<HTMLDivElement>(null);
   const setX = useRef<((value: number) => void) | null>(null);
   const setY = useRef<((value: number) => void) | null>(null);
   const pos = useRef({ x: 0, y: 0 });
@@ -70,15 +70,6 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
     if (!rootRef.current) return;
     const r = rootRef.current.getBoundingClientRect();
     moveTo(e.clientX - r.left, e.clientY - r.top);
-    gsap.to(fadeRef.current, { opacity: 0, duration: 0.25, overwrite: true });
-  };
-
-  const handleLeave = () => {
-    gsap.to(fadeRef.current, {
-      opacity: 1,
-      duration: fadeOut,
-      overwrite: true
-    });
   };
 
   const handleCardClick = (item: ChromaGridItem) => {
@@ -106,7 +97,6 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
         '--rows': rows
       } as React.CSSProperties}
       onPointerMove={handleMove}
-      onPointerLeave={handleLeave}
     >
       {data.map((c, i) => (
         <article
@@ -125,13 +115,15 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
               <span className="chroma-card-label">{c.label}</span>
             </div>
             <div className="chroma-card-footer">
-              <span className="chroma-card-value">{c.value}</span>
+              <span className={`chroma-card-value ${c.buttonLabel ? 'has-button' : ''}`}>{c.value}</span>
+              {c.buttonLabel && (
+                <button className="chroma-card-button">{c.buttonLabel}</button>
+              )}
             </div>
           </div>
         </article>
       ))}
       <div className="chroma-overlay" />
-      <div ref={fadeRef} className="chroma-fade" />
     </div>
   );
 };

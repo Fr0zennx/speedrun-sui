@@ -18,10 +18,11 @@ export const profileStaticData: ProfileStaticData[] = [
   },
   {
     id: 'status',
-    label: 'Status',
+    label: 'Character Card',
     description: 'Your wallet connection is live and secure',
     icon: '',
-    color: '#00f260'
+    color: '#00f260',
+    action: 'lesson'
   },
   {
     id: 'wallet',

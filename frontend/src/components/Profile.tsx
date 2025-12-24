@@ -1,6 +1,7 @@
 import { useCurrentAccount } from '@mysten/dapp-kit';
 import { useState } from 'react';
 import LessonView from './LessonView';
+import CharacterCardView from './CharacterCardView';
 import ChromaGrid, { ChromaGridItem } from './ChromaGrid';
 import { profileStaticData } from '../data/profileData';
 import './Profile.css';
@@ -12,6 +13,7 @@ interface ProfileProps {
 function Profile({ onClose }: ProfileProps) {
   const currentAccount = useCurrentAccount();
   const [showLesson, setShowLesson] = useState(false);
+  const [showCharacterCard, setShowCharacterCard] = useState(false);
 
   if (!currentAccount) {
     return null;
@@ -40,7 +42,7 @@ function Profile({ onClose }: ProfileProps) {
       case 'wallet':
         return 'Sui Wallet';
       case 'status':
-        return 'Active';
+        return '';
       case 'garage':
         return 'Testnet Environment';
       default:
@@ -48,15 +50,28 @@ function Profile({ onClose }: ProfileProps) {
     }
   };
 
-  const gridItems: ChromaGridItem[] = profileStaticData.map((item) => ({
-    id: item.id,
-    label: item.label,
-    value: getDynamicValue(item.id),
-    description: item.description,
-    icon: item.icon,
-    color: item.color,
-    onClick: item.action === 'lesson' ? () => setShowLesson(true) : undefined,
-  }));
+  const gridItems: ChromaGridItem[] = profileStaticData.map((item) => {
+    let handleClick: (() => void) | undefined;
+    
+    if (item.action === 'lesson') {
+      if (item.id === 'garage') {
+        handleClick = () => setShowLesson(true);
+      } else if (item.id === 'status') {
+        handleClick = () => setShowCharacterCard(true);
+      }
+    }
+
+    return {
+      id: item.id,
+      label: item.label,
+      value: getDynamicValue(item.id),
+      description: item.description,
+      icon: item.icon,
+      color: item.color,
+      buttonLabel: item.action === 'lesson' ? 'Start' : undefined,
+      onClick: handleClick,
+    };
+  });
 
   return (
     <div className="profile-overlay">
@@ -99,6 +114,9 @@ function Profile({ onClose }: ProfileProps) {
 
       {/* Lesson View */}
       {showLesson && <LessonView onClose={() => setShowLesson(false)} />}
+
+      {/* Character Card View */}
+      {showCharacterCard && <CharacterCardView onClose={() => setShowCharacterCard(false)} />}
     </div>
   );
 }
