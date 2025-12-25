@@ -3,6 +3,7 @@ import { useState } from 'react';
 import LessonView from './LessonView';
 import CharacterCardView from './CharacterCardView';
 import NFTVisualOwnershipView from './NFTVisualOwnershipView';
+import BalanceView from './BalanceView';
 import ChromaGrid, { ChromaGridItem } from './ChromaGrid';
 import { profileStaticData } from '../data/profileData';
 import './Profile.css';
@@ -16,6 +17,7 @@ function Profile({ onClose }: ProfileProps) {
   const [showLesson, setShowLesson] = useState(false);
   const [showCharacterCard, setShowCharacterCard] = useState(false);
   const [showNFTOwnership, setShowNFTOwnership] = useState(false);
+  const [showBalance, setShowBalance] = useState(false);
 
   if (!currentAccount) {
     return null;
@@ -62,6 +64,8 @@ function Profile({ onClose }: ProfileProps) {
         handleClick = () => setShowCharacterCard(true);
       } else if (item.id === 'wallet') {
         handleClick = () => setShowNFTOwnership(true);
+      } else if (item.id === 'balance') {
+        handleClick = () => setShowBalance(true);
       }
     }
 
@@ -124,6 +128,9 @@ function Profile({ onClose }: ProfileProps) {
 
       {/* NFT Ownership View */}
       {showNFTOwnership && <NFTVisualOwnershipView onClose={() => setShowNFTOwnership(false)} />}
+
+      {/* Balance View */}
+      {showBalance && <BalanceView onClose={() => setShowBalance(false)} />}
     </div>
   );
 }

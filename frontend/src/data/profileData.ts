@@ -34,10 +34,11 @@ export const profileStaticData: ProfileStaticData[] = [
   },
   {
     id: 'balance',
-    label: 'Balance',
+    label: 'Battle & Level Up',
     description: 'Your Sui token balance',
     icon: '💰',
-    color: '#FFD700'
+    color: '#FFD700',
+    action: 'lesson'
   },
   {
     id: 'transactions',

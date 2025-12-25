@@ -1,0 +1,261 @@
+.balance-view-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(145deg, #1a2332 0%, #0f1419 100%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  animation: slideInFullscreen 0.4s ease;
+  border: 1px solid rgba(30, 144, 255, 0.2);
+}
+
+@keyframes slideInFullscreen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.balance-view-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.balance-view-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.balance-view-close-btn:hover {
+  background: rgba(255, 0, 0, 0.3);
+  border-color: rgba(255, 0, 0, 0.5);
+  transform: rotate(90deg);
+}
+
+.balance-view-header {
+  flex-shrink: 0;
+  padding: 3rem 3rem 2rem 3rem;
+  border-bottom: 1px solid rgba(30, 144, 255, 0.2);
+}
+
+.balance-view-header h1 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin: 0;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.balance-view-tabs {
+  flex-shrink: 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid rgba(30, 144, 255, 0.2);
+  overflow-x: auto;
+  background: rgba(10, 20, 40, 0.3);
+}
+
+.balance-view-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.balance-view-tabs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.balance-view-tabs::-webkit-scrollbar-thumb {
+  background: rgba(30, 144, 255, 0.3);
+  border-radius: 2px;
+}
+
+.balance-view-tab {
+  flex-shrink: 0;
+  padding: 0.75rem 1.5rem;
+  background: rgba(30, 144, 255, 0.1);
+  border: 1px solid rgba(30, 144, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.balance-view-tab:hover {
+  background: rgba(30, 144, 255, 0.2);
+  border-color: rgba(30, 144, 255, 0.4);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.balance-view-tab.active {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(255, 165, 0, 0.2) 100%);
+  border-color: rgba(255, 215, 0, 0.6);
+  color: #FFD700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.balance-view-content {
+  flex: 1;
+  padding: 3rem;
+  overflow-y: auto;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.balance-view-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.balance-view-content::-webkit-scrollbar-track {
+  background: rgba(30, 144, 255, 0.1);
+  border-radius: 5px;
+}
+
+.balance-view-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.6), rgba(255, 165, 0, 0.6));
+  border-radius: 5px;
+}
+
+.balance-view-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.8), rgba(255, 165, 0, 0.8));
+}
+
+.balance-view-content h3 {
+  font-size: 1.8rem;
+  margin: 2rem 0 1rem 0;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+.balance-view-content h4 {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 1rem 0;
+  color: #FFD700;
+  font-weight: 600;
+}
+
+.balance-view-content p {
+  margin: 1rem 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.balance-view-content ul {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.balance-view-content li {
+  margin: 0.8rem 0;
+  color: rgba(255, 255, 255, 0.7);
+  list-style: none;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.balance-view-content li:before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: #FFD700;
+  font-weight: bold;
+}
+
+.balance-view-content code {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  color: #FFD700;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.balance-view-content pre {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  border-left: 3px solid #FFD700;
+  margin: 1.5rem 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.balance-view-content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.balance-view-content strong {
+  color: #FFD700;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .balance-view-header {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .balance-view-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .balance-view-tabs {
+    padding: 1rem 1.5rem;
+  }
+
+  .balance-view-tab {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .balance-view-content {
+    padding: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .balance-view-content h3 {
+    font-size: 1.4rem;
+  }
+
+  .balance-view-content h4 {
+    font-size: 1rem;
+  }
+}
