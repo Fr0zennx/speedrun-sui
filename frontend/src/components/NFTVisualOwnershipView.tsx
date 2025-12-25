@@ -193,6 +193,108 @@ function NFTVisualOwnershipView({ onClose }: NFTVisualOwnershipViewProps) {
           <li>You will see your NFT contract officially registered and live on the blockchain!</li>
         </ul>
       `
+    },
+    {
+      title: 'Chapter 6: Verifying on Suiscan',
+      content: `
+        <h3>Chapter 6: Verifying on Suiscan</h3>
+        
+        <h4>Step 1: Locate Your Package ID</h4>
+        <p>When you execute the <code>sui client publish</code> command, the Sui CLI returns a detailed JSON response. To find your contract's address, you must look for the "Object Changes" section.</p>
+        
+        <p>Scroll through the output until you find an object where the "type" is labeled as <code>published</code>.</p>
+        
+        <p>The hexadecimal string (starting with <code>0x</code>) next to <code>packageId</code> is your contract's unique identifier.</p>
+        
+        <h4>Action:</h4>
+        <p>Copy this ID. You will need it to view your contract on Suiscan and to interact with your <code>mint_ticket</code> function.</p>
+        
+        <h4>Terminal Output Example:</h4>
+        <p>Below is a representation of what you should see in your terminal. The highlighted packageId is the value you need to copy.</p>
+        
+        <pre style="background: rgba(30, 144, 255, 0.1); padding: 1rem; border-radius: 8px; overflow-x: auto; border-left: 3px solid #1e90ff;"><code>----- Transaction Effects -----
+Status : Success
+
+----- Object Changes -----
+[
+  {
+    "type": "published",
+    "packageId": "0x7b2a9e3f4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e",
+    "version": "1",
+    "modules": [
+      "nft"
+    ]
+  },
+  {
+    "type": "created",
+    "sender": "0xabc1234567890f1e2d3c4b5a69876543210fedcba",
+    "owner": "Immutable",
+    "objectId": "0x7b2a9e3f4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e",
+    "itemType": "package"
+  }
+]</code></pre>
+        
+        <h4>Pro Tip:</h4>
+        <p>In Sui, the <code>packageId</code> and the <code>objectId</code> of the "package" item type are identical during the initial publication. Always look for the <code>published</code> type to be certain!</p>
+        
+        <h4>Step 2: Search on Suiscan</h4>
+        <p>Suiscan is the premier explorer for the Sui network, acting as a window into the blockchain. Now that you have your Package ID, it's time to look up your contract.</p>
+        
+        <h5>Open the Explorer:</h5>
+        <p>Navigate to <strong>suiscan.xyz</strong>.</p>
+        
+        <h5>Network Check:</h5>
+        <p>Before searching, look at the top right corner of the page (as shown below). Ensure the network is set to <strong>"Testnet"</strong>. If it says Mainnet or Devnet, your search will return no results.</p>
+        
+        <img src="/suiscan-search.png" alt="Suiscan Search Interface with Testnet Network Selection" style="max-width: 100%; border-radius: 8px; margin: 1.5rem 0; border: 1px solid rgba(29, 144, 255, 0.3);" />
+        
+        <h5>The Search:</h5>
+        <p>Locate the central search bar with the placeholder <code>Search anything on Sui</code>.</p>
+        
+        <h5>Paste & Go:</h5>
+        <p>Paste your Package ID (the <code>0x...</code> address you copied in Step 1) into this bar and press Enter.</p>
+        
+        <h5>What am I looking for?</h5>
+        <p>Once you hit enter, Suiscan will take you to your <strong>Package Page</strong>. This page contains all the official details of your smart contract, including the bytecode, the modules you wrote, and every transaction that interacts with it.</p>
+        
+        <h4>Step 3: Explore and Interact</h4>
+        <p>Now that you have reached your Package Page, you can see your code live on the blockchain. This is where your contract moves from being just a file on your computer to a public, permanent protocol.</p>
+        
+        <h5>Verify Your Code:</h5>
+        <p>Click on the <strong>"Modules"</strong> tab. You will see your <code>nft</code> module listed there. You can inspect the bytecode and verify that your <code>EntryTicket</code> struct and all your functions were deployed correctly.</p>
+        
+        <h5>Connect Your Wallet:</h5>
+        <p>Look for a <strong>"Connect Wallet"</strong> button (usually at the top of the page). By connecting your Sui Wallet, you can interact with the blockchain directly through the Suiscan interface.</p>
+        
+        <h5>Execute the Mint Function:</h5>
+        <ul>
+          <li>Find the <strong>"Execute"</strong> or <strong>"Write"</strong> tab.</li>
+          <li>Locate your <code>mint_ticket</code> function.</li>
+          <li>You will see input fields for <code>name</code>, <code>description</code>, and <code>url</code>.</li>
+          <li><strong>Try it out:</strong> Enter a name for your ticket, a short description, and a link to an image (e.g., a hosted JPG or PNG link).</li>
+        </ul>
+        
+        <h5>Transaction Success:</h5>
+        <p>Click the <strong>"Execute"</strong> button. After you approve the transaction in your wallet, you will officially have minted your first visual NFT!</p>
+        
+        <h4>Step 4: Final Confirmation (The Wallet View)</h4>
+        <p>The ultimate test of a successful Sui Display implementation is seeing your NFT come to life in your personal wallet. Since you successfully executed the <code>mint_ticket</code> function in the previous step, the asset has already been transferred to your address.</p>
+        
+        <h5>Open Your Wallet:</h5>
+        <p>Open your Sui Wallet extension (or the wallet app you used to connect to Suiscan).</p>
+        
+        <h5>Navigate to Assets:</h5>
+        <p>Click on the <strong>"Assets"</strong> or <strong>"NFTs"</strong> tab.</p>
+        
+        <h5>Behold Your Creation:</h5>
+        <p>You should now see your Entry Ticket listed. Unlike the "Character Card" from Level 1, this asset will display the actual image you linked during the minting process.</p>
+        
+        <h5>Inspect Metadata:</h5>
+        <p>Click on the NFT to view its details. You will see that the <code>name</code> and <code>description</code> fields are perfectly mapped exactly as you defined them in your Display template.</p>
+        
+        <h5>Why is this a big deal?</h5>
+        <p>You didn't just upload an image to a website. You created a <strong>decentralized object</strong> that carries its own "display instructions." No matter which wallet or marketplace the owner uses, your NFT will always look exactly the way you intended it to.</p>
+      `
     }
   ];
 
