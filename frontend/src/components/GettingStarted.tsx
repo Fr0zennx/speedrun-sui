@@ -1,5 +1,4 @@
-import InfiniteMenu from './InfiniteMenu';
-import GridScan from './GridScan';
+import Carousel from './ui/carousel';
 import './GettingStarted.css';
 
 interface GettingStartedProps {
@@ -8,85 +7,56 @@ interface GettingStartedProps {
 }
 
 function GettingStarted({ onClose, onStartSuiGarage }: GettingStartedProps) {
-  const menuItems = [
+  const slideData = [
     {
-      image: '',
-      link: '#network',
-      title: 'Sui Garage',
-      description: 'Currently connected to Sui\'s testing environment'
+      title: 'Level 1: Sui Garage',
+      button: 'Start ',
+      src: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=3432&auto=format&fit=crop',
+      onClick: onStartSuiGarage,
     },
     {
-      image: '',
-      link: '#status',
-      title: 'Status',
-      description: 'Your wallet connection is live and secure'
+      title: 'Level 2: Character Card',
+      button: 'Start',
+      src: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=3472&auto=format&fit=crop',
+      onClick: onStartSuiGarage,
     },
     {
-      image: '',
-      link: '#wallet-type',
-      title: 'Wallet Type',
-      description: 'Official Sui browser extension wallet'
+      title: 'Level 3: NFT & Visual Ownership',
+      button: 'Start',
+      src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=3540&auto=format&fit=crop',
+      onClick: onStartSuiGarage,
     },
     {
-      image: '',
-      link: '#balance',
-      title: 'Balance',
-      description: 'Total balance in your wallet'
+      title: 'Level 4: Battle & Level Up',
+      button: 'Start',
+      src: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=3540&auto=format&fit=crop',
+      onClick: onStartSuiGarage,
     },
     {
-      image: '',
-      link: '#transactions',
-      title: 'Transactions',
-      description: 'Number of transactions performed'
+      title: 'Level 5: Sui Car',
+      button: 'Start',
+      src: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=3534&auto=format&fit=crop',
+      onClick: onStartSuiGarage,
     },
     {
-      image: '',
-      link: '#nfts',
-      title: 'NFTs Owned',
-      description: 'Digital collectibles in your wallet'
+      title: 'Level 6: Sui Gallery',
+      button: 'Start',
+      src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=3540&auto=format&fit=crop',
+      onClick: onStartSuiGarage,
     },
-    {
-      image: '',
-      link: '#connected',
-      title: 'Connected Since',
-      description: 'Your wallet connection start date'
-    },
-    {
-      image: '',
-      link: '#activity',
-      title: 'Last Activity',
-      description: 'Most recent wallet interaction'
-    }
   ];
 
   return (
     <div className="getting-started-overlay">
       <div className="getting-started-container">
-        {/* GridScan Background */}
-        <GridScan
-          sensitivity={0.55}
-          lineThickness={1}
-          linesColor="#1a2845"
-          gridScale={0.1}
-          scanColor="#1e90ff"
-          scanOpacity={0.5}
-          enablePost
-          bloomIntensity={0.4}
-          chromaticAberration={0.001}
-          noiseIntensity={0.005}
-          scanDirection="pingpong"
-          scanDuration={3.0}
-          scanDelay={1.0}
-        />
-
         {/* Close button */}
         <button className="getting-started-close-btn" onClick={onClose}>
           ✕
         </button>
 
-        {/* Infinite Menu */}
+        {/* Carousel */}
         <div className="getting-started-content">
-          <InfiniteMenu items={menuItems} scale={1.0} onStart={onStartSuiGarage} />
+          <Carousel slides={slideData} />
         </div>
       </div>
     </div>
