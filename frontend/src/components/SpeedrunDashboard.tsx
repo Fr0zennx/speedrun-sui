@@ -3,8 +3,7 @@ import {
   ConnectButton,
   useDisconnectWallet
 } from '@mysten/dapp-kit';
-import { useState } from 'react';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { VscAccount } from 'react-icons/vsc';
 import { TracingBeam } from './ui/tracing-beam';
 import { HoverBorderGradient } from './ui/hover-border-gradient';
@@ -18,6 +17,23 @@ import SuiGalleryView from './SuiGalleryView';
 import SlideArrowButton from './SlideArrowButton';
 import GettingStarted from './GettingStarted';
 import './SpeedrunDashboard.css';
+
+// User status interface
+interface UserStatus {
+  wallet_address: string;
+  completed_chapters: number[];
+  pending_chapters: number[];
+  rejected_chapters: number[];
+  next_chapter: number;
+  total_completed: number;
+  total_pending: number;
+  submissions: Record<number, {
+    status: string;
+    submitted_at: string;
+    reviewed_at: string | null;
+  }>;
+  progress: any;
+}
 
 // Content Data
 const contentData = [
@@ -192,8 +208,42 @@ function SpeedrunDashboard() {
   const [showSuiCar, setShowSuiCar] = useState(false);
   const [showSuiGallery, setShowSuiGallery] = useState(false);
 
+  // User progress state
+  const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
+  const [isLoadingStatus, setIsLoadingStatus] = useState(false);
+
+  // Fetch user status when wallet connects or changes
+  useEffect(() => {
+    const fetchUserStatus = async () => {
+      if (!currentAccount?.address) {
+        setUserStatus(null);
+        return;
+      }
+
+      setIsLoadingStatus(true);
+
+      try {
+        const response = await fetch(`/api/user-status?address=${currentAccount.address}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to fetch user status');
+        }
+
+        setUserStatus(result.data);
+      } catch (error) {
+        console.error('Error fetching user status:', error);
+      } finally {
+        setIsLoadingStatus(false);
+      }
+    };
+
+    fetchUserStatus();
+  }, [currentAccount?.address]);
+
   const handleDisconnect = () => {
     disconnectWallet();
+    setUserStatus(null);
   };
 
   return (
@@ -239,6 +289,11 @@ function SpeedrunDashboard() {
                   <span className="wallet-address">
                     {currentAccount.address.substring(0, 6)}...{currentAccount.address.substring(currentAccount.address.length - 4)}
                   </span>
+                  {userStatus && (
+                    <span className="completion-badge" style={{ marginLeft: '8px', fontSize: '12px', color: '#4caf50', fontWeight: 'bold' }}>
+                      {userStatus.total_completed}/15 Levels
+                    </span>
+                  )}
                 </div>
                 <HoverBorderGradient
                   containerClassName="disconnect-gradient-btn"
@@ -304,6 +359,8 @@ function SpeedrunDashboard() {
           onOpenBalance={() => setShowBalance(true)}
           onOpenSuiCar={() => setShowSuiCar(true)}
           onOpenSuiGallery={() => setShowSuiGallery(true)}
+          userStatus={userStatus}
+          isLoadingStatus={isLoadingStatus}
         />
       )}
 

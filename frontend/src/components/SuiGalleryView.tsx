@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SubmitChallenge from './SubmitChallenge';
 import './SuiCarView.css';
 
 interface SuiGalleryViewProps {
@@ -7,6 +8,7 @@ interface SuiGalleryViewProps {
 
 function SuiGalleryView({ onClose }: SuiGalleryViewProps) {
   const [activeChapter, setActiveChapter] = useState(0);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const chapters = [
     {
@@ -583,8 +585,37 @@ fun init(ctx: &mut TxContext) {
           <li>Consider moving to Mainnet once you are confident in your contract.</li>
         </ul>
       `
+    },
+    {
+      title: 'Submit Your Work',
+      content: `
+        <h3>Submit Your Challenge</h3>
+        <p><strong>Congratulations!</strong> You've completed this level. Now submit your work for review.</p>
+        
+        <h4>What you need:</h4>
+        <ul>
+          <li><strong>Deployed URL:</strong> Your Vercel deployment URL</li>
+          <li><strong>Testnet Contract URL:</strong> Your Suiscan/SuiVision/SuiExplorer URL</li>
+        </ul>
+        
+        <p style="color: #4da6ff; margin-top: 2rem;">Click on this tab to open the submission form!</p>
+      `
     }
   ];
+
+  const handleSubmit = (data: { vercelUrl: string; suiscanUrl: string }) => {
+    console.log('Submission data:', data);
+    // TODO: Send to backend/database
+    alert('Submission successful! Your work has been submitted for review.');
+    setShowSubmitModal(false);
+  };
+
+  // Listen for custom event from HTML button
+  useState(() => {
+    const handleOpenModal = () => setShowSubmitModal(true);
+    document.addEventListener('openSubmitModal', handleOpenModal);
+    return () => document.removeEventListener('openSubmitModal', handleOpenModal);
+  });
 
   return (
     <div className="sui-car-fullscreen">
@@ -601,7 +632,13 @@ fun init(ctx: &mut TxContext) {
           <button
             key={index}
             className={`sui-car-tab ${activeChapter === index ? 'active' : ''}`}
-            onClick={() => setActiveChapter(index)}
+            onClick={() => {
+              setActiveChapter(index);
+              if (index === chapters.length - 1) {
+                // If last chapter (Submit), open modal after a short delay
+                setTimeout(() => setShowSubmitModal(true), 500);
+              }
+            }}
           >
             {chapter.title}
           </button>
@@ -614,6 +651,15 @@ fun init(ctx: &mut TxContext) {
           dangerouslySetInnerHTML={{ __html: chapters[activeChapter].content }}
         />
       </div>
+
+      {showSubmitModal && (
+        <SubmitChallenge
+          chapterTitle="Level 6: Sui Gallery"
+          chapterId={6}
+          onClose={() => setShowSubmitModal(false)}
+          onSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 }

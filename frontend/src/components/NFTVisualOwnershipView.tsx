@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SubmitChallenge from './SubmitChallenge';
 import './NFTVisualOwnershipView.css';
 
 interface NFTVisualOwnershipViewProps {
@@ -7,6 +8,7 @@ interface NFTVisualOwnershipViewProps {
 
 function NFTVisualOwnershipView({ onClose }: NFTVisualOwnershipViewProps) {
   const [activeTab, setActiveTab] = useState(0);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const tabs = [
     {
@@ -295,8 +297,37 @@ Status : Success
         <h5>Why is this a big deal?</h5>
         <p>You didn't just upload an image to a website. You created a <strong>decentralized object</strong> that carries its own "display instructions." No matter which wallet or marketplace the owner uses, your NFT will always look exactly the way you intended it to.</p>
       `
+    },
+    {
+      title: 'Submit Your Work',
+      content: `
+        <h3>Submit Your Challenge</h3>
+        <p><strong>Congratulations!</strong> You've completed this level. Now submit your work for review.</p>
+        
+        <h4>What you need:</h4>
+        <ul>
+          <li><strong>Deployed URL:</strong> Your Vercel deployment URL</li>
+          <li><strong>Testnet Contract URL:</strong> Your Suiscan/SuiVision/SuiExplorer URL</li>
+        </ul>
+        
+        <p style="color: #4da6ff; margin-top: 2rem;">Click on this tab to open the submission form!</p>
+      `
     }
   ];
+
+  const handleSubmit = (data: { vercelUrl: string; suiscanUrl: string }) => {
+    console.log('Submission data:', data);
+    // TODO: Send to backend/database
+    alert('Submission successful! Your work has been submitted for review.');
+    setShowSubmitModal(false);
+  };
+
+  // Listen for custom event from HTML button
+  useState(() => {
+    const handleOpenModal = () => setShowSubmitModal(true);
+    document.addEventListener('openSubmitModal', handleOpenModal);
+    return () => document.removeEventListener('openSubmitModal', handleOpenModal);
+  });
 
   return (
     <div className="nft-ownership-overlay">
@@ -314,7 +345,13 @@ Status : Success
             <button
               key={index}
               className={`nft-ownership-tab ${activeTab === index ? 'active' : ''}`}
-              onClick={() => setActiveTab(index)}
+              onClick={() => {
+                setActiveTab(index);
+                if (index === tabs.length - 1) {
+                  // If last chapter (Submit), open modal after a short delay
+                  setTimeout(() => setShowSubmitModal(true), 500);
+                }
+              }}
             >
               {tab.title}
             </button>
@@ -329,6 +366,15 @@ Status : Success
           />
         </div>
       </div>
+
+      {showSubmitModal && (
+        <SubmitChallenge
+          chapterTitle="Level 3: NFT & Visual Ownership"
+          chapterId={3}
+          onClose={() => setShowSubmitModal(false)}
+          onSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 }

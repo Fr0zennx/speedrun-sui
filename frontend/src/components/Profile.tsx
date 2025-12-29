@@ -3,6 +3,22 @@ import ChromaGrid, { ChromaGridItem } from './ChromaGrid';
 import { profileStaticData } from '../data/profileData';
 import './Profile.css';
 
+interface UserStatus {
+  wallet_address: string;
+  completed_chapters: number[];
+  pending_chapters: number[];
+  rejected_chapters: number[];
+  next_chapter: number;
+  total_completed: number;
+  total_pending: number;
+  submissions: Record<number, {
+    status: string;
+    submitted_at: string;
+    reviewed_at: string | null;
+  }>;
+  progress: any;
+}
+
 interface ProfileProps {
   onClose: () => void;
   onOpenLesson?: () => void;
@@ -11,6 +27,8 @@ interface ProfileProps {
   onOpenBalance?: () => void;
   onOpenSuiCar?: () => void;
   onOpenSuiGallery?: () => void;
+  userStatus?: UserStatus | null;
+  isLoadingStatus?: boolean;
 }
 
 function Profile({ 
@@ -20,7 +38,9 @@ function Profile({
   onOpenNFTOwnership,
   onOpenBalance,
   onOpenSuiCar,
-  onOpenSuiGallery
+  onOpenSuiGallery,
+  userStatus,
+  isLoadingStatus
 }: ProfileProps) {
   const currentAccount = useCurrentAccount();
 
@@ -41,12 +61,16 @@ function Profile({
       case 'balance':
         return '-- SUI';
       case 'transactions':
-        return '0';
+        return userStatus?.total_completed.toString() || '0';
       case 'nfts':
-        return '0';
+        return userStatus?.total_pending.toString() || '0';
       case 'wallet':
         return 'Sui Wallet';
       case 'status':
+        if (isLoadingStatus) return 'Senkronize ediliyor...';
+        if (userStatus) {
+          return `${userStatus.total_completed}/15 Tamamlandı`;
+        }
         return '';
       case 'garage':
         return 'Testnet Environment';
@@ -92,9 +116,25 @@ function Profile({
       }
     }
 
+    // Determine chapter completion status
+    let chapterId: number | null = null;
+    if (item.id === 'garage') chapterId = 1;
+    else if (item.id === 'status') chapterId = 2;
+    else if (item.id === 'wallet') chapterId = 3;
+    else if (item.id === 'balance') chapterId = 4;
+    else if (item.id === 'transactions') chapterId = 5;
+    else if (item.id === 'nfts') chapterId = 6;
+
+    let statusBadge = '';
+    if (chapterId && userStatus) {
+      if (userStatus.completed_chapters.includes(chapterId)) {
+        statusBadge = 'Completed';
+      }
+    }
+
     return {
       id: item.id,
-      label: item.label,
+      label: item.label + (statusBadge ? ` ${statusBadge}` : ''),
       value: getDynamicValue(item.id),
       description: item.description,
       icon: item.icon,

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SubmitChallenge from './SubmitChallenge';
 import './CharacterCardView.css';
 
 interface CharacterCardViewProps {
@@ -7,6 +8,7 @@ interface CharacterCardViewProps {
 
 function CharacterCardView({ onClose }: CharacterCardViewProps) {
   const [activeChapter, setActiveChapter] = useState(0);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const chapters = [
     {
@@ -133,8 +135,67 @@ function CharacterCardView({ onClose }: CharacterCardViewProps) {
           <li>You will see your "Character Card" contract officially registered and live on the blockchain!</li>
         </ul>
       `
+    },
+    {
+      title: 'Chapter 7: Submit Your Work',
+      content: `
+        <h3>Submit Your Character Card Challenge</h3>
+        <p><strong>Congratulations!</strong> You've built and deployed your first Sui Move contract. Now it's time to submit your work for review.</p>
+        
+        <h4>What you need to submit:</h4>
+        <ul>
+          <li><strong>Deployed URL:</strong> If you created a frontend interface, deploy it on Vercel and submit the URL.</li>
+          <li><strong>Testnet Contract URL:</strong> Your published contract's transaction or object URL from Suiscan, SuiVision, or SuiExplorer.</li>
+        </ul>
+        
+        <h4>How to get your Suiscan URL:</h4>
+        <ol>
+          <li>After running <code>sui client publish</code>, copy the Package ID from the output.</li>
+          <li>Go to <a href="https://suiscan.xyz/testnet" target="_blank" rel="noopener noreferrer">https://suiscan.xyz/testnet</a></li>
+          <li>Paste your Package ID in the search bar.</li>
+          <li>Copy the full URL from your browser's address bar.</li>
+        </ol>
+        
+        <p style="color: #4da6ff; font-style: italic; margin-top: 2rem;">Ready to submit? Click the button below to open the submission form!</p>
+        
+        <div style="margin-top: 2rem; text-align: center;">
+          <button 
+            onclick="document.dispatchEvent(new CustomEvent('openSubmitModal'))"
+            style="
+              background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+              color: white;
+              border: none;
+              padding: 14px 32px;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
+              transition: transform 0.2s ease, box-shadow 0.2s ease;
+            "
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0, 188, 212, 0.4)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 188, 212, 0.3)'"
+          >
+            📝 Open Submission Form
+          </button>
+        </div>
+      `
     }
   ];
+
+  const handleSubmit = (data: { vercelUrl: string; suiscanUrl: string }) => {
+    console.log('Submission data:', data);
+    // TODO: Send to backend/database
+    alert('Submission successful! Your work has been submitted for review.');
+    setShowSubmitModal(false);
+  };
+
+  // Listen for custom event from HTML button
+  useState(() => {
+    const handleOpenModal = () => setShowSubmitModal(true);
+    document.addEventListener('openSubmitModal', handleOpenModal);
+    return () => document.removeEventListener('openSubmitModal', handleOpenModal);
+  });
 
   return (
     <div className="character-card-fullscreen">
@@ -151,7 +212,13 @@ function CharacterCardView({ onClose }: CharacterCardViewProps) {
           <button
             key={index}
             className={`character-card-tab ${activeChapter === index ? 'active' : ''}`}
-            onClick={() => setActiveChapter(index)}
+            onClick={() => {
+              setActiveChapter(index);
+              if (index === chapters.length - 1) {
+                // If last chapter (Submit), open modal after a short delay
+                setTimeout(() => setShowSubmitModal(true), 500);
+              }
+            }}
           >
             {chapter.title}
           </button>
@@ -164,6 +231,15 @@ function CharacterCardView({ onClose }: CharacterCardViewProps) {
           dangerouslySetInnerHTML={{ __html: chapters[activeChapter].content }}
         />
       </div>
+
+      {showSubmitModal && (
+        <SubmitChallenge
+          chapterTitle="Level 2: Character Card"
+          chapterId={2}
+          onClose={() => setShowSubmitModal(false)}
+          onSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 }

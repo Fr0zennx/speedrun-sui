@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SubmitChallenge from './SubmitChallenge';
 import './BalanceView.css';
 
 interface BalanceViewProps {
@@ -7,6 +8,7 @@ interface BalanceViewProps {
 
 function BalanceView({ onClose }: BalanceViewProps) {
   const [activeTab, setActiveTab] = useState(0);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   const tabs = [
     {
@@ -216,8 +218,37 @@ function BalanceView({ onClose }: BalanceViewProps) {
           <li><strong>Verify on Suiscan:</strong> Search for your Package ID on Suiscan to inspect the published modules, their functions, and type definitions.</li>
         </ul>
       `
+    },
+    {
+      title: 'Submit Your Work',
+      content: `
+        <h3>Submit Your Challenge</h3>
+        <p><strong>Congratulations!</strong> You've completed this level. Now submit your work for review.</p>
+        
+        <h4>What you need:</h4>
+        <ul>
+          <li><strong>Deployed URL:</strong> Your Vercel deployment URL</li>
+          <li><strong>Testnet Contract URL:</strong> Your Suiscan/SuiVision/SuiExplorer URL</li>
+        </ul>
+        
+        <p style="color: #4da6ff; margin-top: 2rem;">Click on this tab to open the submission form!</p>
+      `
     }
   ];
+
+  const handleSubmit = (data: { vercelUrl: string; suiscanUrl: string }) => {
+    console.log('Submission data:', data);
+    // TODO: Send to backend/database
+    alert('Submission successful! Your work has been submitted for review.');
+    setShowSubmitModal(false);
+  };
+
+  // Listen for custom event from HTML button
+  useState(() => {
+    const handleOpenModal = () => setShowSubmitModal(true);
+    document.addEventListener('openSubmitModal', handleOpenModal);
+    return () => document.removeEventListener('openSubmitModal', handleOpenModal);
+  });
 
   return (
     <div className="balance-view-overlay">
@@ -235,7 +266,13 @@ function BalanceView({ onClose }: BalanceViewProps) {
             <button
               key={index}
               className={`balance-view-tab ${activeTab === index ? 'active' : ''}`}
-              onClick={() => setActiveTab(index)}
+              onClick={() => {
+                setActiveTab(index);
+                if (index === tabs.length - 1) {
+                  // If last chapter (Submit), open modal after a short delay
+                  setTimeout(() => setShowSubmitModal(true), 500);
+                }
+              }}
             >
               {tab.title}
             </button>
@@ -250,6 +287,15 @@ function BalanceView({ onClose }: BalanceViewProps) {
           />
         </div>
       </div>
+
+      {showSubmitModal && (
+        <SubmitChallenge
+          chapterTitle="Level 4: Battle & Level Up"
+          chapterId={4}
+          onClose={() => setShowSubmitModal(false)}
+          onSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 }
