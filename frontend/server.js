@@ -48,10 +48,20 @@ app.post('/api/submit-challenge', async (req, res) => {
     const { wallet_address, chapter_id, vercel_url, suiscan_url } = req.body;
 
     // Validation
-    if (!wallet_address || !chapter_id || !vercel_url || !suiscan_url) {
+    // Chapter 2 doesn't require Vercel URL
+    const requiresVercel = chapter_id !== 2;
+    
+    if (!wallet_address || !chapter_id || !suiscan_url) {
       return res.status(400).json({
         success: false,
-        error: 'Missing required fields: wallet_address, chapter_id, vercel_url, suiscan_url'
+        error: 'Missing required fields: wallet_address, chapter_id, suiscan_url'
+      });
+    }
+
+    if (requiresVercel && !vercel_url) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required field: vercel_url'
       });
     }
 
@@ -69,7 +79,7 @@ app.post('/api/submit-challenge', async (req, res) => {
       });
     }
 
-    if (!isValidVercelUrl(vercel_url)) {
+    if (requiresVercel && !isValidVercelUrl(vercel_url)) {
       return res.status(400).json({
         success: false,
         error: 'Invalid Vercel URL format. Must be https://*.vercel.app'
