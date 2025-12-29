@@ -304,7 +304,7 @@ function LessonView({ onClose }: LessonViewProps) {
                   cursor: 'pointer'
                 }}
               >
-                Return to Profile 👤
+                Return to Profile 
               </button>
             </div>
           </div>

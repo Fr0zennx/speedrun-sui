@@ -82,75 +82,53 @@
 
 .profile-photo-container {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 280px;
+  height: 350px;
   margin-bottom: 1rem;
 }
 
-.profile-photo {
+.profile-photo-card {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(30, 144, 255, 0.15) 0%, rgba(0, 0, 0, 0.4) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 2;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  animation: rotateProfile 20s linear infinite;
+  overflow: hidden;
 }
 
-@keyframes rotateProfile {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.profile-photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: rgba(125, 249, 255, 0.6);
+  transition: all 0.3s ease;
 }
 
-.profile-photo-icon {
-  width: 60%;
-  height: 60%;
-  color: white;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
-  animation: reverseRotate 20s linear infinite;
+.profile-photo-placeholder:hover {
+  color: rgba(125, 249, 255, 0.9);
+  transform: scale(1.05);
 }
 
-@keyframes reverseRotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
+.photo-icon {
+  width: 80px;
+  height: 80px;
+  opacity: 0.8;
 }
 
-.profile-photo-icon svg {
-  width: 100%;
-  height: 100%;
+.photo-text {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-.profile-photo-glow {
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  opacity: 0.4;
-  filter: blur(30px);
-  z-index: 0;
-  animation: pulseProfileGlow 3s ease-in-out infinite;
-}
 
-@keyframes pulseProfileGlow {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1);
-  }
-}
 
 .profile-wallet-info {
   text-align: center;

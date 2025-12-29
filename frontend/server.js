@@ -8,8 +8,13 @@ dotenv.config({ path: '.env.local' });
 const app = express();
 const PORT = 3000;
 
-// Middleware
-app.use(cors());
+// Middleware - Enable CORS for all origins
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Supabase client
@@ -131,13 +136,8 @@ app.post('/api/submit-challenge', async (req, res) => {
       .single();
 
     if (existingSubmission) {
-      // Prevent updating accepted submissions
-      if (existingSubmission.status === 'accepted') {
-        return res.status(400).json({
-          success: false,
-          error: 'Cannot update an accepted submission'
-        });
-      }
+      // Allow updating even if accepted - reset to pending
+      console.log('Updating existing submission:', existingSubmission.id);
 
       // Update existing submission
       const { data, error } = await supabaseAdmin
@@ -148,7 +148,7 @@ app.post('/api/submit-challenge', async (req, res) => {
           status: 'accepted',
           submitted_at: new Date().toISOString(),
           reviewed_at: new Date().toISOString(),
-          reviewer_notes: 'Auto-approved: Valid URLs provided'
+          reviewer_notes: 'Auto-accepted'
         })
         .eq('wallet_address', wallet_address)
         .eq('chapter_id', chapter_id)
@@ -179,7 +179,7 @@ app.post('/api/submit-challenge', async (req, res) => {
           suiscan_url,
           status: 'accepted',
           reviewed_at: new Date().toISOString(),
-          reviewer_notes: 'Auto-approved: Valid URLs provided'
+          reviewer_notes: 'Auto-accepted'
         })
         .select()
         .single();

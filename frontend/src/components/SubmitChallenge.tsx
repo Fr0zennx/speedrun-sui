@@ -101,10 +101,27 @@ function SubmitChallenge({ chapterTitle, chapterId, onClose, onSubmit }: SubmitC
         }),
       });
 
-      const data = await response.json();
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+
+      // Get text first
+      const text = await response.text();
+      console.log('Response text:', text);
+
+      if (!text) {
+        throw new Error('Server returned empty response');
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error('Failed to parse JSON. Response was:', text);
+        throw new Error(`Invalid JSON response from server: ${text.substring(0, 100)}`);
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Submission failed');
+        throw new Error(data.error || data.message || 'Submission failed');
       }
 
       // Dismiss loading toast
@@ -134,12 +151,14 @@ function SubmitChallenge({ chapterTitle, chapterId, onClose, onSubmit }: SubmitC
       // Dismiss loading toast
       toast.dismiss(loadingToast);
       
-      // Show error toast
-      toast.error('Bir hata oluştu, lütfen linkleri kontrol edin', {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit. Please try again.';
+      
+      // Show error toast with specific message
+      toast.error(errorMessage, {
         duration: 5000,
       });
       
-      setSubmitError(error instanceof Error ? error.message : 'Failed to submit. Please try again.');
+      setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

@@ -6,7 +6,7 @@ import {
 import { useState, useEffect } from 'react';
 import { VscAccount } from 'react-icons/vsc';
 import { TracingBeam } from './ui/tracing-beam';
-import { HoverBorderGradient } from './ui/hover-border-gradient';
+import { NoiseBackground } from './ui/noise-background';
 import Profile from './Profile';
 import LessonView from './LessonView';
 import CharacterCardView from './CharacterCardView';
@@ -278,23 +278,29 @@ function SpeedrunDashboard() {
           
           <div className="header-actions">
             {!currentAccount ? (
-              <HoverBorderGradient
+              <NoiseBackground
                 containerClassName="connect-gradient-btn"
-                className="connect-btn-content"
-                as="div"
+                gradientColors={['rgb(102, 126, 234)', 'rgb(118, 75, 162)', 'rgb(79, 172, 254)']}
+                speed={0.05}
+                noiseIntensity={0.15}
               >
-                <ConnectButton />
-              </HoverBorderGradient>
+                <div className="connect-btn-content">
+                  <ConnectButton />
+                </div>
+              </NoiseBackground>
             ) : (
               <div className="wallet-info">
-                <HoverBorderGradient
+                <NoiseBackground
                   containerClassName="profile-gradient-btn"
-                  className="profile-btn-content"
-                  onClick={() => setShowProfile(true)}
+                  gradientColors={['rgb(102, 126, 234)', 'rgb(118, 75, 162)', 'rgb(79, 172, 254)']}
+                  speed={0.05}
+                  noiseIntensity={0.15}
                 >
-                  <VscAccount size={18} />
-                  <span>Profile</span>
-                </HoverBorderGradient>
+                  <button className="profile-btn-content" onClick={() => setShowProfile(true)}>
+                    <VscAccount size={18} />
+                    <span>Profile</span>
+                  </button>
+                </NoiseBackground>
                 <div className="wallet-badge">
                   <VscAccount size={18} />
                   <span className="wallet-address">
@@ -306,13 +312,16 @@ function SpeedrunDashboard() {
                     </span>
                   )}
                 </div>
-                <HoverBorderGradient
+                <NoiseBackground
                   containerClassName="disconnect-gradient-btn"
-                  className="disconnect-btn-content"
-                  onClick={handleDisconnect}
+                  gradientColors={['rgb(252, 129, 129)', 'rgb(239, 68, 68)', 'rgb(220, 38, 38)']}
+                  speed={0.05}
+                  noiseIntensity={0.15}
                 >
-                  <span>Disconnect</span>
-                </HoverBorderGradient>
+                  <button className="disconnect-btn-content" onClick={handleDisconnect}>
+                    <span>Disconnect</span>
+                  </button>
+                </NoiseBackground>
               </div>
             )}
           </div>

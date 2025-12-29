@@ -1,6 +1,7 @@
 import { useCurrentAccount } from '@mysten/dapp-kit';
 import ChromaGrid, { ChromaGridItem } from './ChromaGrid';
 import { profileStaticData } from '../data/profileData';
+import ElectricBorder from './ui/ElectricBorder';
 import './Profile.css';
 
 interface UserStatus {
@@ -59,13 +60,13 @@ function Profile({
   const getDynamicValue = (id: string) => {
     switch (id) {
       case 'balance':
-        return '-- SUI';
+        return ' ';
       case 'transactions':
         return userStatus?.total_completed.toString() || '0';
       case 'nfts':
         return userStatus?.total_pending.toString() || '0';
       case 'wallet':
-        return 'Sui Wallet';
+        return '';
       case 'status':
         if (isLoadingStatus) return 'Senkronize ediliyor...';
         if (userStatus) {
@@ -73,7 +74,7 @@ function Profile({
         }
         return '';
       case 'garage':
-        return 'Testnet Environment';
+        return '';
       default:
         return '';
     }
@@ -126,20 +127,22 @@ function Profile({
     else if (item.id === 'nfts') chapterId = 6;
 
     let statusBadge = '';
+    let isCompleted = false;
     if (chapterId && userStatus) {
       if (userStatus.completed_chapters.includes(chapterId)) {
-        statusBadge = 'Accepted';
+        statusBadge = ' ✓';
+        isCompleted = true;
       }
     }
 
     return {
       id: item.id,
-      label: item.label + (statusBadge ? ` ${statusBadge}` : ''),
+      label: item.label + statusBadge,
       value: getDynamicValue(item.id),
       description: item.description,
       icon: item.icon,
-      color: item.color,
-      buttonLabel: item.action === 'lesson' ? 'Start' : undefined,
+      color: isCompleted ? '#4caf50' : item.color,
+      buttonLabel: item.action === 'lesson' ? (isCompleted ? 'Review' : 'Start') : undefined,
       onClick: handleClick,
     };
   });
@@ -155,17 +158,23 @@ function Profile({
         {/* Left side - Profile photo */}
         <div className="profile-left">
           <div className="profile-photo-container">
-            <div
-              className="profile-photo"
-              style={{ background: getGradientFromAddress(currentAccount.address) }}
+            <ElectricBorder
+              color="#7df9ff"
+              speed={1}
+              chaos={0.5}
+              thickness={2}
+              borderRadius={16}
+              style={{ borderRadius: 16 }}
             >
-              <div className="profile-photo-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
-                </svg>
+              <div className="profile-photo-card">
+                <div className="profile-photo-placeholder">
+                  <svg className="photo-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                  </svg>
+                  <p className="photo-text">Profile Photo</p>
+                </div>
               </div>
-            </div>
-            <div className="profile-photo-glow" style={{ background: getGradientFromAddress(currentAccount.address) }}></div>
+            </ElectricBorder>
           </div>
 
           <div className="profile-wallet-info">

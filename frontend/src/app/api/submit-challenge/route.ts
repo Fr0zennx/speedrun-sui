@@ -33,8 +33,21 @@ function isValidSuiscanUrl(url: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('=== Submit Challenge API Called ===');
+    
     // Parse request body
-    const body: SubmitChallengeRequest = await request.json();
+    let body: SubmitChallengeRequest;
+    try {
+      body = await request.json();
+      console.log('Request body:', body);
+    } catch (parseError) {
+      console.error('Failed to parse request body:', parseError);
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      );
+    }
+    
     const { wallet_address, chapter_id, vercel_url, suiscan_url } = body;
 
     // Validate required fields
