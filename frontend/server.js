@@ -129,8 +129,10 @@ app.post('/api/submit-challenge', async (req, res) => {
         .update({
           vercel_url,
           suiscan_url,
-          status: 'pending',
-          submitted_at: new Date().toISOString()
+          status: 'accepted',
+          submitted_at: new Date().toISOString(),
+          reviewed_at: new Date().toISOString(),
+          reviewer_notes: 'Auto-approved: Valid URLs provided'
         })
         .eq('wallet_address', wallet_address)
         .eq('chapter_id', chapter_id)
@@ -159,7 +161,9 @@ app.post('/api/submit-challenge', async (req, res) => {
           chapter_id,
           vercel_url,
           suiscan_url,
-          status: 'pending'
+          status: 'accepted',
+          reviewed_at: new Date().toISOString(),
+          reviewer_notes: 'Auto-approved: Valid URLs provided'
         })
         .select()
         .single();

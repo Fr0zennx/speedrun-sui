@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCurrentAccount } from '@mysten/dapp-kit';
+import toast from 'react-hot-toast';
 import './SubmitChallenge.css';
 
 interface SubmitChallengeProps {
@@ -70,6 +71,8 @@ function SubmitChallenge({ chapterTitle, chapterId, onClose, onSubmit }: SubmitC
     setIsSubmitting(true);
     setSubmitError('');
 
+    const loadingToast = toast.loading('Gönderiliyor...');
+
     try {
       const response = await fetch('/api/submit-challenge', {
         method: 'POST',
@@ -90,24 +93,38 @@ function SubmitChallenge({ chapterTitle, chapterId, onClose, onSubmit }: SubmitC
         throw new Error(data.error || 'Submission failed');
       }
 
+      // Dismiss loading toast
+      toast.dismiss(loadingToast);
+
+      // Show success toast
+      toast.success('Başarıyla kaydedildi, kontrol ediliyor!', {
+        duration: 5000,
+      });
+
       // Call parent callback
       onSubmit({ vercelUrl, suiscanUrl });
-
-      // Show success message
-      alert(
-        data.message + '\n\n' +
-        'Your submission has been received and is pending review. ' +
-        'You will be notified once it has been reviewed.'
-      );
 
       // Reset form
       setVercelUrl('');
       setSuiscanUrl('');
       setErrors({ vercel: '', suiscan: '' });
-      onClose();
+      
+      // Close modal after short delay
+      setTimeout(() => {
+        onClose();
+      }, 1000);
 
     } catch (error) {
       console.error('Submission error:', error);
+      
+      // Dismiss loading toast
+      toast.dismiss(loadingToast);
+      
+      // Show error toast
+      toast.error('Bir hata oluştu, lütfen linkleri kontrol edin', {
+        duration: 5000,
+      });
+      
       setSubmitError(error instanceof Error ? error.message : 'Failed to submit. Please try again.');
     } finally {
       setIsSubmitting(false);

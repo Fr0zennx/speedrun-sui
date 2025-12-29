@@ -128,7 +128,7 @@ function Profile({
     let statusBadge = '';
     if (chapterId && userStatus) {
       if (userStatus.completed_chapters.includes(chapterId)) {
-        statusBadge = 'Completed';
+        statusBadge = 'Accepted';
       }
     }
 
