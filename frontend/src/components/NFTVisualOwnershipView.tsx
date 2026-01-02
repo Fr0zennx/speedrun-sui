@@ -313,7 +313,54 @@ Status : Success
       `
     },
     {
-      title: 'Submit Your Work',
+      title: 'Chapter 7: Visual Interaction & Minting',
+      content: `
+        <h3>Visual Interaction & Minting via UI</h3>
+        
+        <h4>Welcome to the Most Exciting Part!</h4>
+        <p><strong>Congratulations!</strong> You've written and deployed your contract. Now comes the most thrilling moment: <strong>creating your own visual NFT</strong>. The <code>mint_ticket</code> interface you see in blockchain explorers is the digital form of the function you wrote in Move.</p>
+        
+        <p>When you navigate to your contract on Sui Explorer or a dApp interface, you'll see input fields labeled <strong>Arg0</strong>, <strong>Arg1</strong>, and <strong>Arg2</strong>. These correspond to the <code>vector&lt;u8&gt;</code> parameters in your contract.</p>
+        
+        <h4>📝 How to Fill Out the Form (What to Write?)</h4>
+        <p>When minting your ticket using the explorer interface, you need to provide the following information:</p>
+        
+        <div style="background: rgba(30, 144, 255, 0.1); padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #1e90ff;">
+          <p><strong>Arg0 (name):</strong> Enter the display name for your NFT.</p>
+          <p style="margin-left: 1.5rem; color: #4da6ff;"><em>Example:</em> <code>VIP Galaxy Ticket</code> or <code>Visual_NFT_01</code></p>
+          
+          <p style="margin-top: 1rem;"><strong>Arg1 (description):</strong> Write a short text explaining what this NFT represents.</p>
+          <p style="margin-left: 1.5rem; color: #4da6ff;"><em>Example:</em> <code>This ticket grants access to exclusive events.</code></p>
+          
+          <p style="margin-top: 1rem;"><strong>Arg2 (url):</strong> Paste the link to your NFT's image (IPFS or HTTPS).</p>
+          <p style="margin-left: 1.5rem; color: #4da6ff;"><em>Example:</em> <code>https://ipfs.io/ipfs/QmExampleImageHash</code></p>
+        </div>
+        
+        <h4>💡 Why Is This Important? (Technical Insight)</h4>
+        
+        <h5>Vector&lt;u8&gt; Flexibility:</h5>
+        <p>In the explorer interface, you'll notice the input fields are labeled as <code>Vector&lt;U8&gt;</code>. This means the system supports any character set (including special characters and emojis). When you type your text and click <strong>Execute</strong>, the browser automatically converts your text into a byte array. Your contract's <code>string::utf8()</code> function then converts these bytes back into readable text.</p>
+        
+        <h5>Visual Ownership:</h5>
+        <p>When the transaction completes successfully (marked as <strong>Transaction Applied</strong>), you'll see a <strong>Created</strong> section in the output. The ID listed there is your NFT's unique address. Thanks to the Display system you configured in the <code>init</code> function, when you click on this ID or view it in your wallet, you won't just see code—you'll see the actual image you linked in Arg2.</p>
+        
+        <h4>🎨 The Power of Sui Display</h4>
+        <p>This is the moment where everything comes together:</p>
+        <ul>
+          <li>Your <strong>struct</strong> holds the data (name, description, URL)</li>
+          <li>Your <strong>Display template</strong> tells wallets and explorers how to render it</li>
+          <li>Your <strong>mint function</strong> creates the actual instance</li>
+          <li>The result: A visual, tradeable, and fully decentralized NFT that appears beautifully in any Sui wallet</li>
+        </ul>
+        
+        <h4>Try It Now!</h4>
+        <p>Go to your contract on Suiscan, connect your wallet, and execute the <code>mint_ticket</code> function with your own creative data. Within seconds, you'll have minted your first visual NFT!</p>
+        
+        <p style="color: #4da6ff; font-style: italic; margin-top: 2rem;">Ready to show the world what you've built? Proceed to Chapter 8 to submit your work!</p>
+      `
+    },
+    {
+      title: 'Chapter 8: Submit Your Work',
       content: `
         <h3>Submit Your Challenge</h3>
         <p><strong>Congratulations!</strong> You've completed this level. Now submit your work for review.</p>

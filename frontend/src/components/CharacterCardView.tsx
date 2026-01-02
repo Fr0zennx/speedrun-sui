@@ -152,7 +152,55 @@ yarn dev</code></pre>
       `
     },
     {
-      title: 'Chapter 7: Submit Your Work',
+      title: 'Chapter 7: The UI Interface (Arg0 & Arg1)',
+      content: `
+        <h3>The UI Interface (Arg0 & Arg1)</h3>
+        <p><strong>Understanding Function Arguments in the UI:</strong> When you interact with your deployed contract through a blockchain explorer or dApp, you'll see input fields labeled <strong>Arg0</strong>, <strong>Arg1</strong>, etc. These are the arguments your Move function expects.</p>
+        
+        <h4>What You Must Write in the UI:</h4>
+        <ul>
+          <li><strong>Arg0 (name_bytes/model):</strong> Enter the name of your character or car.
+            <br/><em>Example:</em> <code>Sui Warrior</code> or <code>CyberTruck</code>
+          </li>
+          <li><strong>Arg1 (bio_bytes/color):</strong> Enter a short description or the color.
+            <br/><em>Example:</em> <code>A fast and agile legendary hero.</code> or <code>Neon Green</code>
+          </li>
+        </ul>
+        
+        <h4>How It Works Behind the Scenes:</h4>
+        <p>When you type text into these input fields on the blockchain explorer or dApp interface:</p>
+        <ol>
+          <li>Your browser automatically converts the text into bytes (<code>vector&lt;u8&gt;</code>).</li>
+          <li>These bytes are sent to your Move contract as function arguments.</li>
+          <li>In your Move code, you convert them back to readable strings using <code>std::string::utf8(arg)</code>.</li>
+        </ol>
+        
+        <h4>Technical Note:</h4>
+        <p style="background: rgba(77, 166, 255, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #4da6ff;">
+          <strong>Data Type:</strong> These inputs are <code>vector&lt;u8&gt;</code> (a sequence of bytes).<br/>
+          <strong>Why?</strong> This format is universal and allows the blockchain to handle any text encoding.<br/>
+          <strong>Conversion:</strong> Your Move function receives raw bytes and uses <code>std::string::utf8()</code> to convert them into a readable String type.
+        </p>
+        
+        <h4>Example Interaction:</h4>
+        <p>When you call <code>create_character</code> on Suiscan or another explorer:</p>
+        <pre><code>// UI Input:
+Arg0: "Satoshi Nakamoto"
+Arg1: "The creator of blockchain technology"
+
+// What your Move function receives:
+name: [83, 97, 116, 111, 115, 104, 105, ...] (bytes)
+bio: [84, 104, 101, 32, 99, 114, 101, 97, ...] (bytes)
+
+// What your code does:
+name: std::string::utf8(name) → "Satoshi Nakamoto"
+bio: std::string::utf8(bio) → "The creator of blockchain technology"</code></pre>
+        
+        <p style="color: #4da6ff; font-style: italic; margin-top: 2rem;">Now you understand how to interact with your contract through any UI! Ready to submit your work? Move to Chapter 8!</p>
+      `
+    },
+    {
+      title: 'Chapter 8: Submit Your Work',
       content: `
         <h3>Submit Your Character Card Challenge</h3>
         <p><strong>Congratulations!</strong> You've built and deployed your first Sui Move contract. Now it's time to submit your work for review.</p>
