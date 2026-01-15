@@ -320,13 +320,12 @@ public entry fun create_wheels(
     {
       title: 'Chapter 6: Parts Manufacturing & PTB Design',
       content: `
-        <h1>Chapter 6: Parts Manufacturing & PTB Design</h1>
         <p>In this chapter of the Sui Garage project, you will move beyond the Car itself and focus on creating the individual components: <strong>Wheels</strong> and <strong>Bumpers</strong>. This section introduces a critical architectural decision in Sui development: the difference between <strong>Entry Functions</strong> and <strong>Return-based Functions</strong>.</p>
         
-        <h2>🎯 Your Mission</h2>
+        <h2>Objective</h2>
         <p>Your goal is to implement two different ways of creating car parts. One method will send the part directly to the user's wallet, while the other will return the part so it can be used immediately inside a <strong>Programmable Transaction Block (PTB)</strong>.</p>
         
-        <h2>📋 Logic Requirements</h2>
+        <h2>Logic Requirements</h2>
         
         <h3>1. Direct Minting (create_wheels)</h3>
         <ul>
@@ -335,55 +334,60 @@ public entry fun create_wheels(
           <li><strong>Action:</strong> Use <code>transfer::public_transfer</code> to deliver the wheels to the person who called the function (<code>tx_context::sender</code>).</li>
         </ul>
         
-        <h3>2. The "Return" Pattern (new_bumper & new_wheels)</h3>
+        <h3>2. The Return Pattern (new_bumper & new_wheels)</h3>
         <ul>
           <li><strong>Requirement:</strong> These should be <code>public</code> functions, <strong>not</strong> entry functions.</li>
           <li><strong>Return Type:</strong> They must return the object itself (<code>Wheels</code> or <code>Bumper</code>).</li>
-          <li><strong>Why?</strong> This allows a developer to "chain" transactions. For example, a user could call <code>new_wheels</code> and then immediately pass that output into <code>install_wheels</code> all within a single transaction block.</li>
+          <li><strong>Why?</strong> This allows a developer to chain transactions. For example, a user could call <code>new_wheels</code> and then immediately pass that output into <code>install_wheels</code> all within a single transaction block.</li>
         </ul>
         
-        <h2>💡 Key Move Concepts to Remember</h2>
-        <h3>Entry vs. Public Functions:</h3>
+        <h2>Key Move Concepts</h2>
+        <h3>Entry vs. Public Functions</h3>
         <ul>
-          <li><code>entry</code> functions are the "end of the line." They are called directly by wallets and <strong>cannot return values</strong> to other Move functions.</li>
+          <li><code>entry</code> functions are the end of the line. They are called directly by wallets and <strong>cannot return values</strong> to other Move functions.</li>
           <li><code>public</code> functions that return objects are the building blocks of <strong>Programmable Transaction Blocks (PTBs)</strong>. They allow for complex, atomic operations where you create, modify, and store an object in one go.</li>
         </ul>
-        
-        <h2>Chapter 6: Code Task</h2>
-        <p>Implement both patterns for parts manufacturing:</p>
-        
-        <pre><code>// === CHAPTER 6: PARTS MANUFACTURING ===
-
-/// Direct minting - sends to wallet immediately
-public entry fun create_wheels(
-    style: vector&lt;u8&gt;, 
-    ctx: &mut TxContext
-) {
-    // TODO: Create a new Wheels object
-    // TODO: Transfer it to the sender
-}
-
-/// Return pattern - for PTB composition
-public fun new_wheels(
-    style: vector&lt;u8&gt;, 
-    ctx: &mut TxContext
-): Wheels {
-    // TODO: Create and RETURN the Wheels object
-}
-
-/// Return pattern for Bumper
-public fun new_bumper(
-    shape: vector&lt;u8&gt;, 
-    ctx: &mut TxContext
-): Bumper {
-    // TODO: Create and RETURN the Bumper object
-}</code></pre>
       `
     },
     {
-      title: 'Chapter 7: Deployment to SUI Testnet',
+      title: 'Chapter 7: Object Composability',
       content: `
-        <h1>Chapter 7: Deployment to SUI Testnet</h1>
+        <p>In this chapter of the Sui Garage project, you will master one of Sui's most powerful features: <strong>Object Composability</strong>. Unlike other blockchains where state is often just a mapping of numbers, Sui allows objects to physically own other objects.</p>
+        
+        <h2>Objective</h2>
+        <p>Your goal is to complete the logic that allows a user to equip or unequip parts (Wheels and Bumpers) from their Car.</p>
+        
+        <h2>Logic Requirements</h2>
+        
+        <h3>1. The Swap Mechanic (install_wheels & install_bumper)</h3>
+        <p>When a user wants to install a new part, your code must handle three things:</p>
+        <ul>
+          <li><strong>Check Presence:</strong> Use <code>option::is_some</code> to see if the Car already has a part in that slot.</li>
+          <li><strong>The Extract & Return:</strong> If a part exists, you must extract it from the Car and send it back to the user's wallet using <code>transfer::public_transfer</code>. We don't want to lose the old part.</li>
+          <li><strong>The Fill:</strong> Use <code>option::fill</code> to put the new object into the now-empty slot.</li>
+        </ul>
+        
+        <h3>2. The Removal Mechanic (remove_wheels & remove_bumper)</h3>
+        <p>When a user wants to take a part off without replacing it:</p>
+        <ul>
+          <li><strong>Safety First:</strong> Use an <code>assert!</code> to ensure the slot isn't already empty. If the user tries to remove nothing, the transaction should fail with an error.</li>
+          <li><strong>Extraction:</strong> Extract the object and send it to the sender.</li>
+        </ul>
+        
+        <h3>3. On-chain Feedback</h3>
+        <p>Every time a part is installed or removed, you must emit a <code>CarModifiedEvent</code>. This allows your React frontend to listen to the blockchain and update the Garage UI instantly without refreshing.</p>
+        
+        <h2>Key Move Concepts</h2>
+        <ul>
+          <li><strong>std::option:</strong> In Move, you cannot have a null field. If a Car might not have wheels, the field must be an <code>Option&lt;Wheels&gt;</code>. Use <code>extract()</code> to take the value out and <code>fill()</code> to put a value in.</li>
+          <li><strong>Dynamic Ownership:</strong> When you install Wheels into a Car, the Wheels object's owner changes from the User to the Car. The wheels are now nested inside the car's UID.</li>
+        </ul>
+      `
+    },
+    {
+      title: 'Chapter 8: Deployment to SUI Testnet',
+      content: `
+        <h1>Chapter 8: Deployment to SUI Testnet</h1>
         <p>After modeling data, implementing logic, and verifying your code with unit tests, the final step is <strong>Deployment</strong>. In SUI, publishing a contract converts your Move code into an on-chain package that anyone (or authorized users) can interact with.</p>
         
         <h2>The Core Concepts</h2>
