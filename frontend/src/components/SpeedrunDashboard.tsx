@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { VscAccount } from 'react-icons/vsc';
 import { TracingBeam } from './ui/tracing-beam';
 import { NoiseBackground } from './ui/noise-background';
+import { Vortex } from './ui/vortex';
 import Profile from './Profile';
 import LessonView from './LessonView';
 import CharacterCardView from './CharacterCardView';
@@ -83,7 +84,7 @@ const contentData = [
     ),
    
     image:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=3472&auto=format&fit=crop",
+      "/character-card-id.png",
   },
   {
     title: "Level 3: NFT & Visual Ownership",
@@ -258,6 +259,34 @@ function SpeedrunDashboard() {
 
   return (
     <div className="dashboard-container">
+      {/* Left Vortex Strip */}
+      <div className="vortex-strip vortex-left">
+        <Vortex
+          backgroundColor="transparent"
+          particleCount={1200}
+          baseHue={180}
+          rangeY={800}
+          baseSpeed={0.15}
+          rangeSpeed={1.2}
+          baseRadius={0.8}
+          rangeRadius={1.8}
+        />
+      </div>
+      
+      {/* Right Vortex Strip */}
+      <div className="vortex-strip vortex-right">
+        <Vortex
+          backgroundColor="transparent"
+          particleCount={1200}
+          baseHue={220}
+          rangeY={800}
+          baseSpeed={0.15}
+          rangeSpeed={1.2}
+          baseRadius={0.8}
+          rangeRadius={1.8}
+        />
+      </div>
+
       {/* Header */}
       <header className="dashboard-header">
         <div className="header-content">

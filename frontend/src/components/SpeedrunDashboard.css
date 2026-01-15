@@ -3,6 +3,31 @@
   min-height: 100vh;
   background: linear-gradient(to bottom, #0a0e27, #1a1f3a);
   color: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Vortex Strips */
+.vortex-strip {
+  position: fixed;
+  top: 0;
+  width: 330px;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.vortex-left {
+  left: 50px;
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+}
+
+.vortex-right {
+  right: 50px;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
 }
 
 /* Header */
