@@ -172,6 +172,7 @@ function Profile({
 
         {/* Left side - Profile photo */}
         <div className="profile-left">
+
           <div className="profile-photo-container">
             <ElectricBorder
               color="#7df9ff"
@@ -190,6 +191,28 @@ function Profile({
                 </div>
               </div>
             </ElectricBorder>
+          </div>
+
+          {/* Neon NFT Object ID Input Box */}
+          <div className="w-full flex justify-center mt-6">
+            <div className="relative w-72 rounded-xl p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] border-2 border-cyan-400 shadow-[0_0_24px_4px_rgba(0,255,255,0.25)] flex flex-col items-center">
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-cyan-400 blur-sm animate-pulse" />
+              <div className="w-16 h-16 mb-2 flex items-center justify-center rounded-full bg-[#101828] border border-cyan-400 shadow-[0_0_12px_2px_rgba(0,255,255,0.15)]">
+                <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              <input
+                type="text"
+                placeholder="Enter NFT Object ID"
+                className="w-full px-4 py-2 mb-3 rounded-lg bg-[#0f172a] border border-cyan-400 text-cyan-200 placeholder-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 neon-input"
+              />
+              <button
+                className="w-full py-2 rounded-lg bg-cyan-500 text-[#0f172a] font-bold text-lg mt-1 shadow-[0_0_8px_2px_rgba(0,255,255,0.15)] hover:bg-cyan-400 transition"
+              >
+                Set as Profile
+              </button>
+            </div>
           </div>
 
           <div className="profile-wallet-info">
