@@ -9,6 +9,7 @@ import { TracingBeam } from './ui/tracing-beam';
 import { NoiseBackground } from './ui/noise-background';
 import { Vortex } from './ui/vortex';
 import PixelBlast from './ui/PixelBlast';
+import RotatingText from './ui/RotatingText';
 import Profile from './Profile';
 import LessonView from './LessonView';
 import CharacterCardView from './CharacterCardView';
@@ -112,7 +113,7 @@ const contentData = [
     ),
    
     image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=3540&auto=format&fit=crop",
+      "/nft-phoenix.png",
   },
   {
     title: "Level 4: Battle & Level Up",
@@ -143,7 +144,7 @@ const contentData = [
     ),
     
     image:
-      "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=3540&auto=format&fit=crop",
+      "/battle-level-up.png",
   },
   {
     title: "Level 5: Sui Car",
@@ -167,7 +168,7 @@ const contentData = [
     ),
     
     image:
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=3540&auto=format&fit=crop",
+      "/sui-car.png",
   },
   {
     title: "Level 6: Sui Gallery",
@@ -194,7 +195,7 @@ const contentData = [
     ),
     
     image:
-      "https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=3540&auto=format&fit=crop",
+      "/sui-gallery.png",
   },
 ];
 
@@ -332,7 +333,21 @@ function SpeedrunDashboard() {
         {/* Get Started Button */}
         <div className="get-started-section">
           <h2 className="welcome-title">Welcome to Sui Garage</h2>
-          <p className="welcome-subtitle"></p>
+          <div className="rotating-text-container">
+            <span className="learn-text">Learn</span>
+            <RotatingText
+              texts={['Sui Apps', 'Smart Contracts', 'Coding']}
+              mainClassName="rotating-text-box"
+              staggerFrom="last"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-120%" }}
+              staggerDuration={0.025}
+              splitLevelClassName="overflow-hidden"
+              transition={{ type: "spring", damping: 30, stiffness: 400 }}
+              rotationInterval={2000}
+            />
+          </div>
           <SlideArrowButton 
             text="Get Started" 
             primaryColor="#00bcd4"
