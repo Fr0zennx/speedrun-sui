@@ -1,19 +1,21 @@
 import { SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
-import { getFullnodeUrl } from '@mysten/sui/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import SpeedrunDashboard from './components/SpeedrunDashboard';
+import { lazy, Suspense } from 'react';
 import '@mysten/dapp-kit/dist/index.css';
 import './App.css';
+
+// Lazy load main component
+const SpeedrunDashboard = lazy(() => import('./components/SpeedrunDashboard'));
 
 // QueryClient oluştur - React Query için gerekli
 const queryClient = new QueryClient();
 
-// Sui network ayarları
+// Sui network ayarları - hardcoded URLs to avoid @mysten/sui import issues
 const networks = {
-  testnet: { url: getFullnodeUrl('testnet') },
-  mainnet: { url: getFullnodeUrl('mainnet') },
-  devnet: { url: getFullnodeUrl('devnet') },
+  testnet: { url: 'https://fullnode.testnet.sui.io:443' },
+  mainnet: { url: 'https://fullnode.mainnet.sui.io:443' },
+  devnet: { url: 'https://fullnode.devnet.sui.io:443' },
 };
 
 function App() {
@@ -45,7 +47,9 @@ function App() {
               },
             }}
           />
-          <SpeedrunDashboard />
+          <Suspense fallback={<div>Loading...</div>}>
+            <SpeedrunDashboard />
+          </Suspense>
         </WalletProvider>
       </SuiClientProvider>
     </QueryClientProvider>

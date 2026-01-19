@@ -3,21 +3,23 @@ import {
   ConnectButton,
   useDisconnectWallet
 } from '@mysten/dapp-kit';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { VscAccount } from 'react-icons/vsc';
-import { TracingBeam } from './ui/tracing-beam';
-import PixelBlast from './ui/PixelBlast';
-import RotatingText from './ui/RotatingText';
-import Profile from './Profile';
-import LessonView from './LessonView';
-import CharacterCardView from './CharacterCardView';
-import NFTVisualOwnershipView from './NFTVisualOwnershipView';
-import BalanceView from './BalanceView';
-import SuiCarView from './SuiCarView';
-import SuiGalleryView from './SuiGalleryView';
-import SlideArrowButton from './SlideArrowButton';
-import GettingStarted from './GettingStarted';
 import './SpeedrunDashboard.css';
+
+// Lazy load heavy components
+const TracingBeam = lazy(() => import('./ui/tracing-beam').then(module => ({ default: module.TracingBeam })));
+const PixelBlast = lazy(() => import('./ui/PixelBlast'));
+const RotatingText = lazy(() => import('./ui/RotatingText'));
+const Profile = lazy(() => import('./Profile'));
+const LessonView = lazy(() => import('./LessonView'));
+const CharacterCardView = lazy(() => import('./CharacterCardView'));
+const NFTVisualOwnershipView = lazy(() => import('./NFTVisualOwnershipView'));
+const BalanceView = lazy(() => import('./BalanceView'));
+const SuiCarView = lazy(() => import('./SuiCarView'));
+const SuiGalleryView = lazy(() => import('./SuiGalleryView'));
+const SlideArrowButton = lazy(() => import('./SlideArrowButton'));
+const GettingStarted = lazy(() => import('./GettingStarted'));
 
 // User status interface
 interface UserStatus {
@@ -261,25 +263,27 @@ function SpeedrunDashboard() {
     <div className="dashboard-container">
       {/* PixelBlast Background */}
       <div className="pixel-blast-background">
-        <PixelBlast
-          variant="circle"
-          pixelSize={6}
-          color="#4facfe"
-          patternScale={3}
-          patternDensity={1.2}
-          pixelSizeJitter={0.5}
-          enableRipples
-          rippleSpeed={0.4}
-          rippleThickness={0.12}
-          rippleIntensityScale={1.5}
-          liquid
-          liquidStrength={0.12}
-          liquidRadius={1.2}
-          liquidWobbleSpeed={5}
-          speed={0.6}
-          edgeFade={0.25}
-          transparent
-        />
+        <Suspense fallback={<div className="loading-placeholder"></div>}>
+          <PixelBlast
+            variant="circle"
+            pixelSize={6}
+            color="#4facfe"
+            patternScale={3}
+            patternDensity={1.2}
+            pixelSizeJitter={0.5}
+            enableRipples
+            rippleSpeed={0.4}
+            rippleThickness={0.12}
+            rippleIntensityScale={1.5}
+            liquid
+            liquidStrength={0.12}
+            liquidRadius={1.2}
+            liquidWobbleSpeed={5}
+            speed={0.6}
+            edgeFade={0.25}
+            transparent
+          />
+        </Suspense>
       </div>
 
       {/* Header */}
@@ -333,107 +337,141 @@ function SpeedrunDashboard() {
           <h2 className="welcome-title">Welcome to Sui Garage</h2>
           <div className="rotating-text-container">
             <span className="learn-text">Learn</span>
-            <RotatingText
-              texts={['Sui Apps', 'Smart Contracts', 'Coding']}
-              mainClassName="rotating-text-box"
-              staggerFrom="last"
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-120%" }}
-              staggerDuration={0.025}
-              splitLevelClassName="overflow-hidden"
-              transition={{ type: "spring", damping: 30, stiffness: 400 }}
-              rotationInterval={2000}
-            />
+            <Suspense fallback={<div className="loading-placeholder"></div>}>
+              <RotatingText
+                texts={['Sui Apps', 'Smart Contracts', 'Coding']}
+                mainClassName="rotating-text-box"
+                staggerFrom="last"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-120%" }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden"
+                transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                rotationInterval={2000}
+              />
+            </Suspense>
           </div>
-          <SlideArrowButton
-            text="Get Started"
-            primaryColor="#00bcd4"
-            onClick={() => setShowGettingStarted(true)}
-          />
+          <Suspense fallback={<div className="loading-placeholder"></div>}>
+            <SlideArrowButton
+              text="Get Started"
+              primaryColor="#00bcd4"
+              onClick={() => setShowGettingStarted(true)}
+            />
+          </Suspense>
         </div>
 
-        <TracingBeam className="tracing-beam-wrapper">
-          <div className="content-wrapper">
-            {contentData.map((item, index) => (
-              <div key={`content-${index}`} className="content-item">
-                <h2 className="content-badge">
-                  {item.badge}
-                </h2>
+        <Suspense fallback={<div className="loading-placeholder"></div>}>
+          <TracingBeam className="tracing-beam-wrapper">
+            <div className="content-wrapper">
+              {contentData.map((item, index) => (
+                <div key={`content-${index}`} className="content-item">
+                  <h2 className="content-badge">
+                    {item.badge}
+                  </h2>
 
-                <p className="content-title">
-                  {item.title}
-                </p>
+                  <p className="content-title">
+                    {item.title}
+                  </p>
 
-                <div className="content-description">
-                  {item?.image && (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="content-image"
-                    />
-                  )}
-                  {item.description}
+                  <div className="content-description">
+                    {item?.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="content-image"
+                      />
+                    )}
+                    {item.description}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </TracingBeam>
+              ))}
+            </div>
+          </TracingBeam>
+        </Suspense>
       </main>
 
       {/* Profile Modal */}
       {showProfile && currentAccount && (
-        <Profile
-          onClose={() => setShowProfile(false)}
-          onOpenLesson={() => setShowLesson(true)}
-          onOpenCharacterCard={() => setShowCharacterCard(true)}
-          onOpenNFTOwnership={() => setShowNFTOwnership(true)}
-          onOpenBalance={() => setShowBalance(true)}
-          onOpenSuiCar={() => setShowSuiCar(true)}
-          onOpenSuiGallery={() => setShowSuiGallery(true)}
-          userStatus={userStatus}
-          isLoadingStatus={isLoadingStatus}
-        />
+        <Suspense fallback={<div className="loading-placeholder">Loading Profile...</div>}>
+          <Profile
+            onClose={() => setShowProfile(false)}
+            onOpenLesson={() => setShowLesson(true)}
+            onOpenCharacterCard={() => setShowCharacterCard(true)}
+            onOpenNFTOwnership={() => setShowNFTOwnership(true)}
+            onOpenBalance={() => setShowBalance(true)}
+            onOpenSuiCar={() => setShowSuiCar(true)}
+            onOpenSuiGallery={() => setShowSuiGallery(true)}
+            userStatus={userStatus}
+            isLoadingStatus={isLoadingStatus}
+          />
+        </Suspense>
       )}
 
       {/* Getting Started Modal */}
       {showGettingStarted && (
-        <GettingStarted
-          onClose={() => setShowGettingStarted(false)}
-          onStartSuiGarage={() => {
-            setShowGettingStarted(false);
-            setShowLesson(true);
-          }}
-          onStartCharacterCard={() => {
-            setShowGettingStarted(false);
-            setShowCharacterCard(true);
-          }}
-          onStartNFTOwnership={() => {
-            setShowGettingStarted(false);
-            setShowNFTOwnership(true);
-          }}
-          onStartBalance={() => {
-            setShowGettingStarted(false);
-            setShowBalance(true);
-          }}
-          onStartSuiCar={() => {
-            setShowGettingStarted(false);
-            setShowSuiCar(true);
-          }}
-          onStartSuiGallery={() => {
-            setShowGettingStarted(false);
-            setShowSuiGallery(true);
-          }}
-        />
+        <Suspense fallback={<div className="loading-placeholder">Loading...</div>}>
+          <GettingStarted
+            onClose={() => setShowGettingStarted(false)}
+            onStartSuiGarage={() => {
+              setShowGettingStarted(false);
+              setShowLesson(true);
+            }}
+            onStartCharacterCard={() => {
+              setShowGettingStarted(false);
+              setShowCharacterCard(true);
+            }}
+            onStartNFTOwnership={() => {
+              setShowGettingStarted(false);
+              setShowNFTOwnership(true);
+            }}
+            onStartBalance={() => {
+              setShowGettingStarted(false);
+              setShowBalance(true);
+            }}
+            onStartSuiCar={() => {
+              setShowGettingStarted(false);
+              setShowSuiCar(true);
+            }}
+            onStartSuiGallery={() => {
+              setShowGettingStarted(false);
+              setShowSuiGallery(true);
+            }}
+          />
+        </Suspense>
       )}
 
       {/* Lesson Views */}
-      {showLesson && <LessonView onClose={() => setShowLesson(false)} />}
-      {showCharacterCard && <CharacterCardView onClose={() => setShowCharacterCard(false)} />}
-      {showNFTOwnership && <NFTVisualOwnershipView onClose={() => setShowNFTOwnership(false)} />}
-      {showBalance && <BalanceView onClose={() => setShowBalance(false)} />}
-      {showSuiCar && <SuiCarView onClose={() => setShowSuiCar(false)} />}
-      {showSuiGallery && <SuiGalleryView onClose={() => setShowSuiGallery(false)} />}
+      {showLesson && (
+        <Suspense fallback={<div className="loading-placeholder">Loading Lesson...</div>}>
+          <LessonView onClose={() => setShowLesson(false)} />
+        </Suspense>
+      )}
+      {showCharacterCard && (
+        <Suspense fallback={<div className="loading-placeholder">Loading Character Card...</div>}>
+          <CharacterCardView onClose={() => setShowCharacterCard(false)} />
+        </Suspense>
+      )}
+      {showNFTOwnership && (
+        <Suspense fallback={<div className="loading-placeholder">Loading NFT Ownership...</div>}>
+          <NFTVisualOwnershipView onClose={() => setShowNFTOwnership(false)} />
+        </Suspense>
+      )}
+      {showBalance && (
+        <Suspense fallback={<div className="loading-placeholder">Loading Balance...</div>}>
+          <BalanceView onClose={() => setShowBalance(false)} />
+        </Suspense>
+      )}
+      {showSuiCar && (
+        <Suspense fallback={<div className="loading-placeholder">Loading Sui Car...</div>}>
+          <SuiCarView onClose={() => setShowSuiCar(false)} />
+        </Suspense>
+      )}
+      {showSuiGallery && (
+        <Suspense fallback={<div className="loading-placeholder">Loading Sui Gallery...</div>}>
+          <SuiGalleryView onClose={() => setShowSuiGallery(false)} />
+        </Suspense>
+      )}
     </div>
   );
 }
