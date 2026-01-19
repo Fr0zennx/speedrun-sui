@@ -23,7 +23,7 @@ function SuiGalleryView({ onClose }: SuiGalleryViewProps) {
         
         <h4>2. Navigate to the Project Folder</h4>
         <p>Move into the directory you just cloned:</p>
-        <pre style="background: rgba(30, 144, 255, 0.1); padding: 1rem; border-radius: 8px; overflow-x: auto; border-left: 3px solid #1e90ff;"><code>cd Character-Card</code></pre>
+        <pre style="background: rgba(30, 144, 255, 0.1); padding: 1rem; border-radius: 8px; overflow-x: auto; border-left: 3px solid #1e90ff;"><code>cd sui-gallery</code></pre>
         
         <h4>3. Install Dependencies</h4>
         <p>This project uses Node.js. Run the following command to install all necessary packages:</p>

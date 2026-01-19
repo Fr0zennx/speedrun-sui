@@ -19,11 +19,11 @@ function CharacterCardView({ onClose }: CharacterCardViewProps) {
         
         <h4>1. Clone the Repository</h4>
         <p>Open your terminal (Command Prompt, PowerShell, or Terminal) and run the following command to download the project:</p>
-        <pre><code>git clone https://github.com/Fr0zennx/Character-Card.git</code></pre>
+        <pre><code>git clone https://github.com/Fr0zennx/character-card.git</code></pre>
         
         <h4>2. Navigate to the Project Folder</h4>
         <p>Move into the directory you just cloned:</p>
-        <pre><code>cd Character-Card</code></pre>
+        <pre><code>cd character-card</code></pre>
         
         <h4>3. Install Dependencies</h4>
         <p>This project uses Node.js. Run the following command to install all necessary packages:</p>

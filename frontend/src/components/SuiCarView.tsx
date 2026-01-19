@@ -23,7 +23,7 @@ function SuiCarView({ onClose }: SuiCarViewProps) {
         
         <h4>2. Navigate to the UI Directory</h4>
         <p>The frontend of the project is located in the <code>ui</code> folder. Move into it to manage dependencies:</p>
-        <pre style="background: rgba(30, 144, 255, 0.1); padding: 1rem; border-radius: 8px; overflow-x: auto; border-left: 3px solid #1e90ff;"><code>cd Character-Card/ui</code></pre>
+        <pre style="background: rgba(30, 144, 255, 0.1); padding: 1rem; border-radius: 8px; overflow-x: auto; border-left: 3px solid #1e90ff;"><code>cd sui-car</code></pre>
         
         <h4>3. Install Dependencies</h4>
         <pre style="background: rgba(30, 144, 255, 0.1); padding: 1rem; border-radius: 8px; overflow-x: auto; border-left: 3px solid #1e90ff;"><code>npm install</code></pre>
