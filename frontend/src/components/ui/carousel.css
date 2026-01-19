@@ -41,10 +41,32 @@
   cursor: default;
 }
 
+.carousel-slide-sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  /* Debug: Remove this after testing */
+  /* background: rgba(255, 0, 0, 0.3); */
+}
+
+.sparkles-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
+
 .carousel-slide-image {
   width: 100%;
   height: 100%;
   position: relative;
+  z-index: 0;
 }
 
 .carousel-slide-image img {
@@ -93,6 +115,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -118,6 +141,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
