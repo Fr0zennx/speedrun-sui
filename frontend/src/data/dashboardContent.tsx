@@ -30,7 +30,7 @@ export const contentData: DashboardContentItem[] = [
         ),
         badge: "Introduction",
         image:
-            "/Sui-Garage-Development.png",
+            "/Sui-Garage-Development.webp",
     },
     {
         title: "Level 2: Character Card",
@@ -54,7 +54,7 @@ export const contentData: DashboardContentItem[] = [
         ),
 
         image:
-            "/character-card-id.png",
+            "/character-card-id.webp",
     },
     {
         title: "Level 3: NFT & Visual Ownership",
@@ -81,7 +81,7 @@ export const contentData: DashboardContentItem[] = [
         ),
 
         image:
-            "/nft-phoenix.png",
+            "/nft-phoenix.webp",
     },
     {
         title: "Level 4: Battle & Level Up",
@@ -112,7 +112,7 @@ export const contentData: DashboardContentItem[] = [
         ),
 
         image:
-            "/battle-level-up.png",
+            "/battle-level-up.webp",
     },
     {
         title: "Level 5: Sui Car",
@@ -136,7 +136,7 @@ export const contentData: DashboardContentItem[] = [
         ),
 
         image:
-            "/sui-car.png",
+            "/sui-car.webp",
     },
     {
         title: "Level 6: Sui Gallery",
@@ -163,6 +163,6 @@ export const contentData: DashboardContentItem[] = [
         ),
 
         image:
-            "/sui-gallery.png",
+            "/sui-gallery.webp",
     },
 ];
