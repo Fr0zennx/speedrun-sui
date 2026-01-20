@@ -1,10 +1,12 @@
 import { useCurrentAccount } from '@mysten/dapp-kit';
+import { lazy, Suspense } from 'react';
 import toast from 'react-hot-toast';
 import ChromaGrid, { ChromaGridItem } from './ChromaGrid';
 import { profileStaticData } from '../data/profileData';
-import FloatingLines from './ui/FloatingLines';
 import NFTProfilePhoto from './NFTProfilePhoto';
 import './Profile.css';
+
+const FloatingLines = lazy(() => import('./ui/FloatingLines'));
 
 interface UserStatus {
   wallet_address: string;
@@ -146,16 +148,18 @@ function Profile({
     <div className="profile-overlay">
       {/* FloatingLines Background */}
       <div className="profile-floating-bg">
-        <FloatingLines
-          enabledWaves={['top', 'middle', 'bottom']}
-          lineCount={[10, 15, 20]}
-          lineDistance={[8, 6, 4]}
-          bendRadius={5.0}
-          bendStrength={-0.5}
-          interactive={true}
-          parallax={true}
-          linesGradient={['#4facfe', '#00f2fe', '#667eea', '#764ba2']}
-        />
+        <Suspense fallback={<div className="floating-lines-placeholder" />}>
+          <FloatingLines
+            enabledWaves={['top', 'middle', 'bottom']}
+            lineCount={[10, 15, 20]}
+            lineDistance={[8, 6, 4]}
+            bendRadius={5.0}
+            bendStrength={-0.5}
+            interactive={true}
+            parallax={true}
+            linesGradient={['#4facfe', '#00f2fe', '#667eea', '#764ba2']}
+          />
+        </Suspense>
       </div>
       <div className="profile-container">
         {/* Close button */}

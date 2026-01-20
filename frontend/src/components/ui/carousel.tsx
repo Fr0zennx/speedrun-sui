@@ -39,8 +39,17 @@ function Slide({ slide, index, current, handleSlideClick }: SlideProps) {
       }}
       onClick={() => handleSlideClick(index)}
     >
-      <div className="carousel-slide-image">
-        <img src={slide.src} alt={slide.title} />
+      <div className="carousel-slide-image" style={{ backgroundColor: '#111' }}>
+        <img
+          src={slide.src}
+          alt={slide.title}
+          loading="lazy"
+          decoding="async"
+          style={{ opacity: 0, transition: 'opacity 0.6s ease' }}
+          onLoad={(e) => {
+            (e.target as HTMLImageElement).style.opacity = '1';
+          }}
+        />
         <div className="carousel-slide-overlay" />
       </div>
       <div className="carousel-slide-content">

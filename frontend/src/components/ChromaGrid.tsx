@@ -111,13 +111,30 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
           } as React.CSSProperties}
         >
           {c.image && (
-            <div className="chroma-card-image">
-              <img src={c.image} alt={c.label} />
+            <div className="chroma-card-image" style={{ backgroundColor: '#1a1a1a' }}> {/* Placeholder bg */}
+              <img
+                src={c.image}
+                alt={c.label}
+                loading="lazy"
+                decoding="async"
+                style={{ opacity: 0, transition: 'opacity 0.5s ease-in-out' }}
+                onLoad={(e) => {
+                  (e.target as HTMLImageElement).style.opacity = '1';
+                }}
+              />
             </div>
           )}
           <div className="chroma-card-content">
             <div className="chroma-card-header">
-              {c.icon && !c.image && <img src={c.icon} alt="" className="chroma-card-icon" />}
+              {c.icon && !c.image && (
+                <img
+                  src={c.icon}
+                  alt=""
+                  className="chroma-card-icon"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
               <span className="chroma-card-label">{c.label}</span>
             </div>
             <div className="chroma-card-footer">

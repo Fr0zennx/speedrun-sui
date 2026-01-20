@@ -209,6 +209,8 @@ function NFTProfilePhoto({ walletAddress, onPhotoChange }: NFTProfilePhotoProps)
                                         src={displayNFT.image}
                                         alt={displayNFT.name}
                                         className="nft-profile-image"
+                                        loading="lazy"
+                                        decoding="async"
                                         onError={() => setImageError(true)}
                                     />
                                     {/* NFT Info Overlay */}
