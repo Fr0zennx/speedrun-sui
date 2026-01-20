@@ -30,7 +30,7 @@ export const contentData: DashboardContentItem[] = [
         ),
         badge: "Introduction",
         image:
-            "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=3432&auto=format&fit=crop",
+            "/Sui-Garage-Development.png",
     },
     {
         title: "Level 2: Character Card",

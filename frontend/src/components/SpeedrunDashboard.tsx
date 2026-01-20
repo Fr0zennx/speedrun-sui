@@ -1,3 +1,4 @@
+import { throttleRequests } from '../utils/rpcUtils';
 import {
   useCurrentAccount,
   useDisconnectWallet
@@ -92,12 +93,12 @@ function SpeedrunDashboard() {
       const preloadComponents = async () => {
         try {
           const componentsToPreload = [
-            import('./Profile'),
-            import('./SuiGalleryView'),
-            import('./SuiCarView'),
-            import('./NFTVisualOwnershipView')
+            () => import('./Profile'),
+            () => import('./SuiGalleryView'),
+            () => import('./SuiCarView'),
+            () => import('./NFTVisualOwnershipView')
           ];
-          await Promise.all(componentsToPreload);
+          await throttleRequests(componentsToPreload, (loadFn) => loadFn(), 3);
           console.log('Heavy components preloaded');
         } catch (e) {
           console.error('Failed to preload components', e);
